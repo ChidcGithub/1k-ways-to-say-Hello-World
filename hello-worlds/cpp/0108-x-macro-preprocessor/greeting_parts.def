@@ -1,0 +1,4 @@
+PART("Hello")
+PART(", ")
+PART("World")
+PART("!")
