@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](docs/CONTRIBUTING.md)
-[![Hello Worlds](https://img.shields.io/badge/Hello%20Worlds-0%2F1000-blue)](#)
+[![Hello Worlds](https://img.shields.io/badge/Hello%20Worlds-127%2F1000-blue)](#progress)
 [![GitHub stars](https://img.shields.io/github/stars/ChidcGithub/1k-ways-to-say-Hello-World)](https://github.com/ChidcGithub/1k-ways-to-say-Hello-World/stargazers)
 [![GitHub repo size](https://img.shields.io/github/repo-size/ChidcGithub/1k-ways-to-say-Hello-World)](https://github.com/ChidcGithub/1k-ways-to-say-Hello-World)
 [![Last commit](https://img.shields.io/github/last-commit/ChidcGithub/1k-ways-to-say-Hello-World)](https://github.com/ChidcGithub/1k-ways-to-say-Hello-World/commits)
@@ -21,6 +21,7 @@ Whether you are a beginner looking for a friendly first PR, a polyglot chasing o
 ## Table of Contents
 
 - [Features](#features)
+- [Progress](#progress)
 - [Repository Structure](#repository-structure)
 - [Installation](#installation)
 - [Quick Start](#quick-start)
@@ -47,6 +48,27 @@ Whether you are a beginner looking for a friendly first PR, a polyglot chasing o
 
 ---
 
+## Progress
+
+**127 / 1000** Hello Worlds collected. Breakdown by language:
+
+| Language | Count | Entry range | Highlights |
+|----------|-------|-------------|------------|
+| [python](hello-worlds/python/) | 50 | `#0001`, `#0009`–`#0057` | 9 paradigms, 7 output media, 3 platforms (cli/cloud/embedded/wasm) |
+| [cpp](hello-worlds/cpp/) | 70 | `#0058`–`#0127` | 8 paradigms (incl. generic/meta/concurrent), C++20 concepts/coroutines/ranges |
+| [c](hello-worlds/c/) | 1 | `#0002` | K&R-era stdio |
+| [javascript](hello-worlds/javascript/) | 1 | `#0003` | Browser DOM |
+| [java](hello-worlds/java/) | 1 | `#0004` | OOP class-based |
+| [haskell](hello-worlds/haskell/) | 1 | `#0005` | Pure functional |
+| [rust](hello-worlds/rust/) | 1 | `#0006` | One-liner closure |
+| [brainfuck](hello-worlds/brainfuck/) | 1 | `#0007` | 8-instruction esoteric |
+| [bash](hello-worlds/bash/) | 1 | `#0008` | Shell script |
+| **Total** | **127** | `#0001`–`#0127` | — |
+
+> The next free ID is **`#0128`**. See [Contributing](#contributing) to add yours.
+
+---
+
 ## Repository Structure
 
 Entries are **grouped by language** under `hello-worlds/<language>/<id>-<short-name>/`. Each entry ships a minimal `README.md` so it can be browsed, compared, and run independently.
@@ -58,27 +80,37 @@ Entries are **grouped by language** under `hello-worlds/<language>/<id>-<short-n
 ├── .gitignore
 ├── docs/
 │   ├── CATEGORIZATION.md          # Full taxonomy: how to distinguish Hello Worlds
-│   ├── CONTRIBUTING.md            # How to submit a new entry
+│   ├── CONTRIBUTING.md            # How to submit a new entry (incl. duplicate-prevention checklist)
 │   └── ENTRY_TEMPLATE.md          # Copy-paste template for a new entry
 └── hello-worlds/                  # All Hello World implementations, by language
-    ├── python/
+    ├── python/                    # 50 entries (#0001, #0009–#0057)
     │   ├── 0001-classic/
     │   │   ├── README.md
     │   │   └── main.py
+    │   ├── 0009-oop-class/
+    │   ├── 0023-ascii-art-banner/
+    │   ├── 0035-quine/
     │   └── ...
-    ├── c/
+    ├── cpp/                       # 70 entries (#0058–#0127)
+    │   ├── 0058-classic-iostream/
+    │   │   ├── README.md
+    │   │   └── main.cpp
+    │   ├── 0118-coroutine-cpp20/
+    │   ├── 0124-quine-appended/
+    │   └── ...
+    ├── c/                         # 1 entry (#0002)
     │   └── 0002-stdio/
-    ├── javascript/
+    ├── javascript/                # 1 entry (#0003)
     │   └── 0003-browser/
-    ├── java/
+    ├── java/                      # 1 entry (#0004)
     │   └── 0004-oop/
-    ├── haskell/
+    ├── haskell/                   # 1 entry (#0005)
     │   └── 0005-functional/
-    ├── rust/
+    ├── rust/                      # 1 entry (#0006)
     │   └── 0006-one-liner/
-    ├── brainfuck/
+    ├── brainfuck/                 # 1 entry (#0007)
     │   └── 0007-hello/
-    └── bash/
+    └── bash/                      # 1 entry (#0008)
         └── 0008-script/
 ```
 
@@ -178,12 +210,12 @@ Every entry is tagged along **6 orthogonal dimensions**. Two entries are conside
 
 | Dimension | Example values |
 |-----------|----------------|
-| **Language** (`language`) | `python`, `c`, `rust`, `brainfuck`, `assembly-x86` |
-| **Paradigm** (`paradigm`) | `procedural`, `oop`, `functional`, `logic`, `esoteric` |
-| **Output medium** (`output`) | `stdout`, `gui`, `web`, `audio`, `ascii-art`, `led` |
-| **Platform** (`platform`) | `cli`, `browser`, `mobile`, `embedded`, `cloud`, `wasm` |
+| **Language** (`language`) | `python`, `cpp`, `c`, `rust`, `java`, `haskell`, `javascript`, `bash`, `brainfuck`, `assembly-x86` |
+| **Paradigm** (`paradigm`) | `procedural`, `oop`, `functional`, `logic`, `declarative`, `concatenative`, `array`, `reactive`, `generic`, `meta`, `concurrent`, `esoteric` |
+| **Output medium** (`output`) | `stdout`, `stderr`, `file`, `network`, `gui`, `web`, `audio`, `image`, `ascii-art`, `serial`, `led` |
+| **Platform** (`platform`) | `cli`, `browser`, `desktop-gui`, `mobile`, `embedded`, `cloud`, `wasm`, `bare-metal` |
 | **Era** (`era`) | `vintage` (≤1980), `classic` (1981–2000), `modern` (2001–2020), `contemporary` (2021–) |
-| **Special technique** (`tags`) | `one-liner`, `code-golf`, `obfuscated`, `quine`, `polyglot`, `ascii-art` |
+| **Special technique** (`tags`) | `one-liner`, `code-golf`, `obfuscated`, `quine`, `polyglot`, `ascii-art`, `parallel`, `hand-assembled`, `self-hosted` |
 
 Full rules (including how to handle multi-language entries, version dialects, and tie-breaking) live in [docs/CATEGORIZATION.md](docs/CATEGORIZATION.md).
 
@@ -197,14 +229,14 @@ There is no application configuration. The only "config" in this repo is per-ent
 
 ```yaml
 ---
-id: 0042
-language: rust
-paradigm: functional
+id: 0128
+language: go
+paradigm: procedural
 output: stdout
 platform: cli
-era: modern
-tags: [one-liner]
-notes: "Uses a closure invoked immediately"
+era: contemporary
+tags: []
+notes: "Uses fmt.Println from the standard library"
 author: your-github-username
 date: 2026-07-20
 ---
@@ -223,7 +255,7 @@ Field names are fixed; do not invent new ones. If you need a new dimension, open
 | PR rejected as "duplicate" | Same 6-dimension signature as an existing entry | Tweak at least one dimension (e.g. add a `tag`, change `output`) — see [CATEGORIZATION.md](docs/CATEGORIZATION.md) |
 | `gh repo create` fails with 403 | GitHub CLI not authenticated, or lacking `repo` scope | Run `gh auth login` and ensure the `repo` scope is granted |
 | LF/CRLF warnings on Windows | Line-ending mismatch (harmless) | `git config core.autocrlf true` to silence |
-| Badge shows `0/1000` forever | The count is manual for now | It will be updated as entries land — feel free to open a PR to automate it |
+| Badge count out of date | The count is updated manually per batch | Open a PR to bump it, or propose a GitHub Action to automate it |
 
 ---
 
@@ -234,10 +266,10 @@ Contributions are **very welcome** — this project literally cannot reach 1,000
 ### Add a new Hello World in 5 steps
 
 1. **Read the rules** — [docs/CATEGORIZATION.md](docs/CATEGORIZATION.md) tells you what counts as "different".
-2. **Pick the next free ID** — open [`hello-worlds/`](hello-worlds/), find the highest `N`, use `N+1` (zero-padded to 4 digits, e.g. `0042`).
+2. **Pick the next free ID** — open [`hello-worlds/`](hello-worlds/), find the highest `N`, use `N+1` (zero-padded to 4 digits, e.g. `0128`).
 3. **Copy the template** — start from [docs/ENTRY_TEMPLATE.md](docs/ENTRY_TEMPLATE.md).
 4. **Verify locally** — make sure your code actually prints `Hello, World!` using the command in your `README.md`.
-5. **Open a PR** — branch `add-0042-<language>-<short-name>`, title `Add #0042: <language> - <short description>`.
+5. **Open a PR** — branch `add-0128-<language>-<short-name>`, title `Add #0128: <language> - <short description>`.
 
 ### Code style
 
