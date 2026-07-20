@@ -89,8 +89,8 @@ python main.py
 
 感谢所有让这个项目离 1000 更近一步的人。
 
-<a href="https://github.com/your-user/1k-ways-to-say-Hello-World/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=your-user/1k-ways-to-say-Hello-World" />
+<a href="https://github.com/ChidcGithub/1k-ways-to-say-Hello-World/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ChidcGithub/1k-ways-to-say-Hello-World" />
 </a>
 
 ---
