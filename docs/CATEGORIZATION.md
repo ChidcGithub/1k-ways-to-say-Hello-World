@@ -37,6 +37,9 @@
 | `concatenative` | 连接式 | 后缀/栈式（Forth、PostScript、factor） |
 | `array` | 数组式 | 整体操作数组（APL、J、k） |
 | `reactive` | 响应式 | 数据流、信号、订阅 |
+| `generic` | 泛型 | 模板/泛型类型参数化（C++ templates、Java generics、C macros） |
+| `meta` | 元编程 | 编译期代码生成（C 预处理、C++ constexpr/模板元编程） |
+| `concurrent` | 并发 | 多线程/协程协作（pthread、std::thread、Java Thread） |
 | `esoteric` | 玩具/Esoteric 语言范式 | brainfuck 等仅 8 条指令、由语言本身决定 |
 
 ### 3. 输出媒介 (output)

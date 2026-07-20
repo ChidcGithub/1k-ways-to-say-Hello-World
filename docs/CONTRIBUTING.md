@@ -21,7 +21,7 @@ Two entries are considered different (and may coexist) only if they differ in **
 | Dimension | Example values |
 |-----------|----------------|
 | `language` | `python`, `c`, `rust`, `brainfuck` |
-| `paradigm` | `procedural`, `oop`, `functional`, `logic`, `declarative`, `concatenative`, `array`, `reactive`, `esoteric` |
+| `paradigm` | `procedural`, `oop`, `functional`, `logic`, `declarative`, `concatenative`, `array`, `reactive`, `generic`, `meta`, `concurrent`, `esoteric` |
 | `output` | `stdout`, `stderr`, `gui`, `web`, `audio`, `ascii-art`, `image`, `led`, `serial`, `network`, `file` |
 | `platform` | `cli`, `browser`, `mobile`, `embedded`, `cloud`, `desktop-gui`, `mainframe`, `wasm`, `bare-metal` |
 | `era` | `vintage`, `classic`, `modern`, `contemporary` |
