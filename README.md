@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](docs/CONTRIBUTING.md)
-[![Hello Worlds](https://img.shields.io/badge/Hello%20Worlds-127%2F1000-blue)](#progress)
+[![Hello Worlds](https://img.shields.io/badge/Hello%20Worlds-227%2F1000-blue)](#progress)
 [![GitHub stars](https://img.shields.io/github/stars/ChidcGithub/1k-ways-to-say-Hello-World)](https://github.com/ChidcGithub/1k-ways-to-say-Hello-World/stargazers)
 [![GitHub repo size](https://img.shields.io/github/repo-size/ChidcGithub/1k-ways-to-say-Hello-World)](https://github.com/ChidcGithub/1k-ways-to-say-Hello-World)
 [![Last commit](https://img.shields.io/github/last-commit/ChidcGithub/1k-ways-to-say-Hello-World)](https://github.com/ChidcGithub/1k-ways-to-say-Hello-World/commits)
@@ -50,22 +50,22 @@ Whether you are a beginner looking for a friendly first PR, a polyglot chasing o
 
 ## Progress
 
-**127 / 1000** Hello Worlds collected. Breakdown by language:
+**227 / 1000** Hello Worlds collected. Breakdown by language:
 
 | Language | Count | Entry range | Highlights |
 |----------|-------|-------------|------------|
 | [python](hello-worlds/python/) | 50 | `#0001`, `#0009`–`#0057` | 9 paradigms, 7 output media, 3 platforms (cli/cloud/embedded/wasm) |
 | [cpp](hello-worlds/cpp/) | 70 | `#0058`–`#0127` | 8 paradigms (incl. generic/meta/concurrent), C++20 concepts/coroutines/ranges |
-| [c](hello-worlds/c/) | 1 | `#0002` | K&R-era stdio |
+| [java](hello-worlds/java/) | 51 | `#0004`, `#0128`–`#0177` | 6 paradigms (procedural/oop/functional/concurrent/reactive/generic), up to Java 25 |
+| [c](hello-worlds/c/) | 51 | `#0002`, `#0178`–`#0227` | 5 paradigms (procedural/functional/generic/meta/concurrent), up to C23 |
 | [javascript](hello-worlds/javascript/) | 1 | `#0003` | Browser DOM |
-| [java](hello-worlds/java/) | 1 | `#0004` | OOP class-based |
 | [haskell](hello-worlds/haskell/) | 1 | `#0005` | Pure functional |
 | [rust](hello-worlds/rust/) | 1 | `#0006` | One-liner closure |
 | [brainfuck](hello-worlds/brainfuck/) | 1 | `#0007` | 8-instruction esoteric |
 | [bash](hello-worlds/bash/) | 1 | `#0008` | Shell script |
-| **Total** | **127** | `#0001`–`#0127` | — |
+| **Total** | **227** | `#0001`–`#0227` | — |
 
-> The next free ID is **`#0128`**. See [Contributing](#contributing) to add yours.
+> The next free ID is **`#0228`**. See [Contributing](#contributing) to add yours.
 
 ---
 
@@ -98,12 +98,22 @@ Entries are **grouped by language** under `hello-worlds/<language>/<id>-<short-n
     │   ├── 0118-coroutine-cpp20/
     │   ├── 0124-quine-appended/
     │   └── ...
-    ├── c/                         # 1 entry (#0002)
-    │   └── 0002-stdio/
+    ├── c/                         # 51 entries (#0002, #0178–#0227)
+    │   ├── 0002-stdio/
+    │   ├── 0184-write-syscall-handasm/
+    │   ├── 0210-x-macro-meta/
+    │   ├── 0218-quine/
+    │   ├── 0227-contemporary-c23/
+    │   └── ...
     ├── javascript/                # 1 entry (#0003)
     │   └── 0003-browser/
-    ├── java/                      # 1 entry (#0004)
-    │   └── 0004-oop/
+    ├── java/                      # 51 entries (#0004, #0128–#0177)
+    │   ├── 0004-oop/
+    │   ├── 0128-classic-println/
+    │   ├── 0139-quine/
+    │   ├── 0151-oop-factory-contemporary/
+    │   ├── 0176-reactive-flow/
+    │   └── ...
     ├── haskell/                   # 1 entry (#0005)
     │   └── 0005-functional/
     ├── rust/                      # 1 entry (#0006)
@@ -229,7 +239,7 @@ There is no application configuration. The only "config" in this repo is per-ent
 
 ```yaml
 ---
-id: 0128
+id: 0228
 language: go
 paradigm: procedural
 output: stdout
@@ -266,10 +276,10 @@ Contributions are **very welcome** — this project literally cannot reach 1,000
 ### Add a new Hello World in 5 steps
 
 1. **Read the rules** — [docs/CATEGORIZATION.md](docs/CATEGORIZATION.md) tells you what counts as "different".
-2. **Pick the next free ID** — open [`hello-worlds/`](hello-worlds/), find the highest `N`, use `N+1` (zero-padded to 4 digits, e.g. `0128`).
+2. **Pick the next free ID** — open [`hello-worlds/`](hello-worlds/), find the highest `N`, use `N+1` (zero-padded to 4 digits, e.g. `0228`).
 3. **Copy the template** — start from [docs/ENTRY_TEMPLATE.md](docs/ENTRY_TEMPLATE.md).
 4. **Verify locally** — make sure your code actually prints `Hello, World!` using the command in your `README.md`.
-5. **Open a PR** — branch `add-0128-<language>-<short-name>`, title `Add #0128: <language> - <short description>`.
+5. **Open a PR** — branch `add-0228-<language>-<short-name>`, title `Add #0228: <language> - <short description>`.
 
 ### Code style
 
