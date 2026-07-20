@@ -5,6 +5,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](docs/CONTRIBUTING.md)
 [![Hello Worlds](https://img.shields.io/badge/Hello%20Worlds-0%2F1000-blue)](#)
+[![GitHub stars](https://img.shields.io/github/stars/ChidcGithub/1k-ways-to-say-Hello-World)](https://github.com/ChidcGithub/1k-ways-to-say-Hello-World/stargazers)
+[![GitHub repo size](https://img.shields.io/github/repo-size/ChidcGithub/1k-ways-to-say-Hello-World)](https://github.com/ChidcGithub/1k-ways-to-say-Hello-World)
+[![Last commit](https://img.shields.io/github/last-commit/ChidcGithub/1k-ways-to-say-Hello-World)](https://github.com/ChidcGithub/1k-ways-to-say-Hello-World/commits)
+[![Languages count](https://img.shields.io/github/languages/count/ChidcGithub/1k-ways-to-say-Hello-World)](https://github.com/ChidcGithub/1k-ways-to-say-Hello-World)
+[![Good first issues](https://img.shields.io/github/issues/ChidcGithub/1k-ways-to-say-Hello-World/good%20first%20issue?label=good%20first%20issue)](https://github.com/ChidcGithub/1k-ways-to-say-Hello-World/issues)
 [![Made with Markdown](https://img.shields.io/badge/Made%20with-Markdown-1f425f.svg)](https://www.markdownguide.org/)
 
 `1k-ways-to-say-Hello-World` is an open, collaborative code collection aimed at gathering **1,000 distinct** "Hello, World!" implementations. More than a programmer's stamp album, it is a living archive that records the evolution of languages, the contrast between paradigms, the diversity of runtimes, and the boundless creativity people summon when expressing the very same sentence in code.
@@ -32,13 +37,13 @@ Whether you are a beginner looking for a friendly first PR, a polyglot chasing o
 
 ## Features
 
-- 🌍 **1,000 Hello Worlds, one roof** — A single, searchable archive spanning mainstream, vintage, and esoteric languages.
-- 🧭 **6-dimension taxonomy** — Every entry is tagged by language, paradigm, output medium, platform, era, and special technique, so you can find exactly the slice you want.
-- 🧩 **Same language, multiple entries** — Python OOP, Python functional, Python code-golf all coexist. Diversity within a language is celebrated.
-- 🏛️ **Cultural preservation** — A home for Cold War–era FORTRAN, 8-instruction Brainfuck, and everything in between.
-- 🎨 **Code as art** — Dedicated tags for `obfuscated`, `quine`, `ascii-art`, `polyglot`, and `code-golf` pieces.
-- 👶 **Beginner-friendly** — Each entry is a tiny, self-contained, runnable example — perfect for a first open-source PR.
-- 🧪 **Runnable by design** — Every entry ships with the exact command to run it.
+- **1,000 Hello Worlds under one roof** — A single, searchable archive spanning mainstream, vintage, and esoteric languages.
+- **6-dimension taxonomy** — Every entry is tagged by language, paradigm, output medium, platform, era, and special technique, so you can find exactly the slice you want.
+- **Same language, multiple entries** — Python OOP, Python functional, Python code-golf all coexist. Diversity within a language is celebrated.
+- **Cultural preservation** — A home for Cold War–era FORTRAN, 8-instruction Brainfuck, and everything in between.
+- **Code as art** — Dedicated tags for `obfuscated`, `quine`, `ascii-art`, `polyglot`, and `code-golf` pieces.
+- **Beginner-friendly** — Each entry is a tiny, self-contained, runnable example — perfect for a first open-source PR.
+- **Runnable by design** — Every entry ships with the exact command to run it.
 
 ---
 
@@ -120,45 +125,33 @@ gcc main.c -o hello && ./hello
 
 ## Examples
 
-A single project, many shapes of "Hello". Below are illustrative slots — the actual entries live in [`hello-worlds/`](hello-worlds/).
+A single project, many shapes of "Hello". The two simplest entries are shown below; browse [`hello-worlds/`](hello-worlds/) for the full variety.
 
-### Classic stdout
+### Python classic
 
 ```python
 # 0001-python-classic/main.py
 print("Hello, World!")
 ```
 
-### One-liner with a twist
-
-```rust
-// 0042-rust-one-liner/main.rs
-fn main() { (|| println!("Hello, World!"))(); }
+```bash
+cd hello-worlds/0001-python-classic
+python main.py
+# => Hello, World!
 ```
 
-### ASCII art
-
-```text
-# 0100-ascii-art-banner/output.txt
- _   _      _ _         _    _            _    _ _ _
-| | | | ___| | | ___   / \  | | __ _  ___| | _| (_) |_
-| |_| |/ _ \ | |/ _ \ / _ \ | |/ _` |/ __| |/ / | | __|
-|  _  |  __/ | | (_) / ___ \| | (_| | (__|   <| | | |_
-|_| |_|\___|_|_|\___/_/   \_\_|\__,_|\___|_|\_\_|_|\__|
-```
-
-### Embedded / bare-metal
+### C stdio
 
 ```c
-// 0200-stm32-uart/main.c (excerpt)
-HAL_UART_Transmit(&huart1, (uint8_t*)"Hello, World!\n", 14, 100);
+// 0002-c-stdio/main.c
+#include <stdio.h>
+int main(void) { printf("Hello, World!\n"); return 0; }
 ```
 
-### Esoteric
-
-```text
-# 0300-brainfuck/main.bf
-++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
+```bash
+cd hello-worlds/0002-c-stdio
+gcc main.c -o hello && ./hello
+# => Hello, World!
 ```
 
 > Want a flavor we haven't listed? Open an issue — or better, open a PR.
