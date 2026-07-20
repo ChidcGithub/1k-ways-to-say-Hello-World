@@ -1,62 +1,107 @@
-# 贡献指南
+# Contributing
 
-感谢你对 `1k-ways-to-say-Hello-World` 的兴趣！无论你是想新增一个冷门语言的 Hello World，还是贡献一段炫技代码，都非常欢迎。
+Thank you for your interest in `1k-ways-to-say-Hello-World`! Whether you want to add a Hello World in an obscure language or contribute a piece of code art, you are very welcome.
 
-## 提交前必读
+## Before You Start
 
-1. 阅读 [CATEGORIZATION.md](./CATEGORIZATION.md)，确认你的实现**确实不同于**已有条目。
-2. 浏览 [`hello-worlds/`](../hello-worlds/) 目录，确认编号未冲突。
-3. 确保你的代码**本地可运行**并已实际测试过。
+1. Read [CATEGORIZATION.md](./CATEGORIZATION.md) and confirm your implementation is **genuinely different** from existing entries (see the duplicate-prevention section below).
+2. Browse the [`hello-worlds/`](../hello-worlds/) directory (organized by language) and confirm your ID is not taken.
+3. Make sure your code **runs locally** and has actually been tested.
 
-## 添加一个新 Hello World 的步骤
+---
 
-### 1. 分配编号
+## Preventing Duplicates — Read This First
 
-打开 `hello-worlds/` 目录，找到当前最大编号 `N`，你使用 `N+1`。编号用 4 位零填充，例如 `0042`。
+This project's whole value depends on each entry being **distinct**. Duplicate PRs are the #1 reason for rejection, so please spend a minute checking before you write any code.
 
-### 2. 创建条目目录
+### What counts as "different"?
 
-命名格式：`<编号>-<语言>-<短描述>`
+Two entries are considered different (and may coexist) only if they differ in **at least one** of the 6 categorization dimensions:
+
+| Dimension | Example values |
+|-----------|----------------|
+| `language` | `python`, `c`, `rust`, `brainfuck` |
+| `paradigm` | `procedural`, `oop`, `functional`, `logic`, `declarative`, `concatenative`, `array`, `reactive`, `esoteric` |
+| `output` | `stdout`, `stderr`, `gui`, `web`, `audio`, `ascii-art`, `image`, `led`, `serial`, `network`, `file` |
+| `platform` | `cli`, `browser`, `mobile`, `embedded`, `cloud`, `desktop-gui`, `mainframe`, `wasm`, `bare-metal` |
+| `era` | `vintage`, `classic`, `modern`, `contemporary` |
+| `tags` | `one-liner`, `code-golf`, `obfuscated`, `quine`, `ascii-art`, `polyglot`, `self-hosted`, `parallel`, `distributed`, `shader`, `ai-generated`, `hand-assembled` |
+
+**Only code-style differences** (variable names, spacing, minor refactors) do **not** count as different.
+
+### Duplicate-prevention checklist
+
+Before opening a PR, tick off every item:
+
+- [ ] I searched `hello-worlds/<my-language>/` for entries with the same `paradigm`.
+- [ ] I checked whether any of those entries also share my `output` medium.
+- [ ] I confirmed my `platform` differs from any matching entry (or my `tags` differ if everything else matches).
+- [ ] I verified my `era` and at least one `tag` make the entry meaningfully distinct.
+- [ ] I grepped the repo for keywords in my approach (e.g. `walrus`, `quine`, `tkinter`) to catch near-duplicates.
+- [ ] In my PR description, I list the closest existing entry ID and explain **which dimension differs**.
+
+If you cannot point to a dimension that differs, your entry is a duplicate — please tweak at least one dimension (e.g. change `output` from `stdout` to `stderr`, add a `tag` like `one-liner`, or pick a different `paradigm`) before submitting.
+
+> When in doubt, open an issue first and ask. A 30-second question saves everyone a review cycle.
+
+---
+
+## Adding a New Hello World
+
+### 1. Pick an ID
+
+Open `hello-worlds/<your-language>/` and find the highest existing ID `N` across the whole repo. Use `N+1`, zero-padded to 4 digits (e.g. `0058`). IDs are global — never reset per language.
+
+### 2. Create the Entry Folder
+
+Naming format: `<id>-<short-name>` (no language prefix — the parent directory already encodes the language).
 
 ```
-hello-worlds/0042-rust-one-liner/
-├── README.md      # 必需：元数据 + 说明
-└── main.rs        # 必需：源代码（文件名按语言惯例）
+hello-worlds/rust/0058-async-tokio/
+├── README.md      # Required: metadata + explanation
+└── main.rs        # Required: source code (filename follows language convention)
 ```
 
-如果条目需要多个源文件（如 HTML+JS+CSS），全部放在该目录下。
+If your entry needs multiple source files (e.g. HTML + JS + CSS), put them all in this folder.
 
-### 3. 填写 README.md
+### 3. Fill in README.md
 
-复制 [`ENTRY_TEMPLATE.md`](./ENTRY_TEMPLATE.md) 的内容并按实际情况填写。**YAML front matter 必填**，它是检索和分类的依据。
+Copy [`ENTRY_TEMPLATE.md`](./ENTRY_TEMPLATE.md) and fill it in. The **YAML front matter is mandatory** — it is the basis for indexing and duplicate detection.
 
-### 4. 本地验证
+### 4. Verify Locally
 
-确保代码能运行并输出 `Hello, World!`（或等价内容）。在条目 `README.md` 的"运行方式"一节写出确切命令。
+Make sure the code runs and outputs `Hello, World!` (or equivalent). Write the exact command in the `## Run` section of your entry's `README.md`.
 
-### 5. 提交 PR
+### 5. Open a PR
 
-- 分支命名：`add-0042-rust-one-liner`
-- Commit message：`Add #0042: rust - one-liner`
-- PR 标题：`Add #0042: <language> - <short description>`
-- PR 描述中说明：使用了哪些分类维度、为何与已有条目不同。
+- Branch name: `add-0058-rust-async-tokio`
+- Commit message: `Add #0058: rust - async-tokio`
+- PR title: `Add #0058: <language> - <short description>`
+- In the PR description:
+  - List all 6 categorization dimensions you chose.
+  - Name the closest existing entry ID and state which dimension differs (see the duplicate-prevention checklist above).
 
-## 代码规范
+## Code Style
 
-- **保持最小**：只做 "Hello, World!"，不夹带其他功能。
-- **可读优先**：除非 `tags` 包含 `obfuscated` 或 `code-golf`，否则代码应清晰可读。
-- **无外部依赖优先**：能用标准库完成就不要引入第三方包。
-- **注释语言**：代码注释与项目主语言一致（中文/英文均可，但同一文件内保持一致）。
+- **Keep it minimal** — only "Hello, World!", no bonus features.
+- **Readable by default** — unless a `tag` like `obfuscated` or `code-golf` justifies otherwise.
+- **Prefer the standard library** — avoid third-party dependencies when possible.
+- **Comments** — match the language of the surrounding file (English or Chinese, just stay consistent within a file).
 
-## 行为准则
+## Code of Conduct
 
-- 尊重所有贡献者，不因水平高低、语言偏好贬低他人。
-- 不接受包含恶意代码、攻击性内容或侵权的条目。
-- 重复条目由维护者按 [CATEGORIZATION.md](./CATEGORIZATION.md) 的判定规则裁决。
+- Respect all contributors; do not belittle anyone over skill level or language preference.
+- Entries containing malicious code, offensive content, or copyright infringement will not be accepted.
+- Disputes about duplicates are resolved by maintainers using the rules in [CATEGORIZATION.md](./CATEGORIZATION.md).
 
-## 维护者
+## For Maintainers
 
-- 合并 PR 前会检查：编号连续性、分类元数据完整性、代码可运行性。
-- 如发现重复，会在 PR 中说明并建议合并或调整分类维度。
+Before merging a PR, verify:
+- ID continuity (next free number, globally unique).
+- Categorization metadata completeness and validity (all 6 fields, allowed values only).
+- Code runs as documented.
+- The duplicate-prevention checklist is filled in and the claimed difference is real.
 
-再次感谢你的贡献！让我们一起凑齐 1000 种 Hello World。
+If a duplicate slips through, leave a comment explaining which existing entry it duplicates and suggest either merging or adjusting a dimension.
+
+Thank you for helping us reach 1,000 Hello Worlds!

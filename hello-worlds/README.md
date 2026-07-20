@@ -1,17 +1,27 @@
 # Hello Worlds
 
-所有 "Hello, World!" 实现存放在此目录下，每个条目一个子目录。
+All "Hello, World!" implementations live in this directory, organized **by language** in subdirectories. Each entry gets its own folder.
 
-## 目录命名
+## Directory Layout
 
 ```
-<编号4位>-<语言>-<短描述>
+hello-worlds/<language>/<id>-<short-name>/
 ```
 
-例如：`0001-python-classic`、`0042-rust-one-liner`。
+The language is encoded by the parent directory, so it is **not** repeated in the folder name.
 
-## 如何开始
+### Examples
 
-1. 阅读 [`docs/CATEGORIZATION.md`](../docs/CATEGORIZATION.md) 了解分类规则。
-2. 阅读 [`docs/CONTRIBUTING.md`](../docs/CONTRIBUTING.md) 了解提交流程。
-3. 复制 [`docs/ENTRY_TEMPLATE.md`](../docs/ENTRY_TEMPLATE.md) 作为新条目的起点。
+```
+hello-worlds/python/0001-classic/
+hello-worlds/python/0011-functional-lambda/
+hello-worlds/rust/0006-one-liner/
+hello-worlds/c/0002-stdio/
+```
+
+## Getting Started
+
+1. Read [`docs/CATEGORIZATION.md`](../docs/CATEGORIZATION.md) to understand the 6-dimension taxonomy and what counts as a "different" Hello World.
+2. Read [`docs/CONTRIBUTING.md`](../docs/CONTRIBUTING.md) for the step-by-step submission process — including the **duplicate-prevention checklist**.
+3. Copy [`docs/ENTRY_TEMPLATE.md`](../docs/ENTRY_TEMPLATE.md) as the starting point for your entry.
+4. Pick the next free 4-digit ID (zero-padded, e.g. `0058`) under the appropriate language directory.
