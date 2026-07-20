@@ -1,0 +1,1 @@
+print((msg := "Hello, World!"))

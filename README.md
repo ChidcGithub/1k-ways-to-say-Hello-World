@@ -49,6 +49,8 @@ Whether you are a beginner looking for a friendly first PR, a polyglot chasing o
 
 ## Repository Structure
 
+Entries are **grouped by language** under `hello-worlds/<language>/<id>-<short-name>/`. Each entry ships a minimal `README.md` so it can be browsed, compared, and run independently.
+
 ```
 1k-ways-to-say-Hello-World/
 ├── README.md                      # Project overview (this file)
@@ -58,17 +60,29 @@ Whether you are a beginner looking for a friendly first PR, a polyglot chasing o
 │   ├── CATEGORIZATION.md          # Full taxonomy: how to distinguish Hello Worlds
 │   ├── CONTRIBUTING.md            # How to submit a new entry
 │   └── ENTRY_TEMPLATE.md          # Copy-paste template for a new entry
-└── hello-worlds/                  # All Hello World implementations
-    ├── 0001-python-classic/
-    │   ├── README.md              # Entry metadata + run instructions
-    │   └── main.py
-    ├── 0002-c-stdio/
-    │   ├── README.md
-    │   └── main.c
-    └── ...
+└── hello-worlds/                  # All Hello World implementations, by language
+    ├── python/
+    │   ├── 0001-classic/
+    │   │   ├── README.md
+    │   │   └── main.py
+    │   └── ...
+    ├── c/
+    │   └── 0002-stdio/
+    ├── javascript/
+    │   └── 0003-browser/
+    ├── java/
+    │   └── 0004-oop/
+    ├── haskell/
+    │   └── 0005-functional/
+    ├── rust/
+    │   └── 0006-one-liner/
+    ├── brainfuck/
+    │   └── 0007-hello/
+    └── bash/
+        └── 0008-script/
 ```
 
-Each Hello World lives in its own folder `hello-worlds/<id>-<short-name>/` and ships a minimal `README.md` so entries can be browsed, compared, and run independently.
+> Folder naming inside a language directory: `<id>-<short-name>` (the language is already implied by the parent directory, so it is not repeated in the folder name).
 
 ---
 
@@ -95,18 +109,18 @@ That's it — pick an entry from `hello-worlds/` and follow its `README.md`.
 
 ## Quick Start
 
-Browse the [`hello-worlds/`](hello-worlds/) folder, then run any entry using the command documented inside it:
+Browse the [`hello-worlds/`](hello-worlds/) folder **by language**, then run any entry using the command documented inside it:
 
 ```bash
 # Example: run the Python classic entry
-cd hello-worlds/0001-python-classic
+cd hello-worlds/python/0001-classic
 python main.py
 # => Hello, World!
 ```
 
 ```bash
 # Example: run the C stdio entry
-cd hello-worlds/0002-c-stdio
+cd hello-worlds/c/0002-stdio
 gcc main.c -o hello && ./hello
 # => Hello, World!
 ```
@@ -130,12 +144,12 @@ A single project, many shapes of "Hello". The two simplest entries are shown bel
 ### Python classic
 
 ```python
-# 0001-python-classic/main.py
+# python/0001-classic/main.py
 print("Hello, World!")
 ```
 
 ```bash
-cd hello-worlds/0001-python-classic
+cd hello-worlds/python/0001-classic
 python main.py
 # => Hello, World!
 ```
@@ -143,13 +157,13 @@ python main.py
 ### C stdio
 
 ```c
-// 0002-c-stdio/main.c
+// c/0002-stdio/main.c
 #include <stdio.h>
 int main(void) { printf("Hello, World!\n"); return 0; }
 ```
 
 ```bash
-cd hello-worlds/0002-c-stdio
+cd hello-worlds/c/0002-stdio
 gcc main.c -o hello && ./hello
 # => Hello, World!
 ```
