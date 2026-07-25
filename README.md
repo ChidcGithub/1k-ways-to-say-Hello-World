@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](docs/CONTRIBUTING.md)
-[![Hello Worlds](https://img.shields.io/badge/Hello%20Worlds-327%2F1000-blue)](#progress)
+[![Hello Worlds](https://img.shields.io/badge/Hello%20Worlds-427%2F1000-blue)](#progress)
 [![GitHub stars](https://img.shields.io/github/stars/ChidcGithub/1k-ways-to-say-Hello-World)](https://github.com/ChidcGithub/1k-ways-to-say-Hello-World/stargazers)
 [![GitHub repo size](https://img.shields.io/github/repo-size/ChidcGithub/1k-ways-to-say-Hello-World)](https://github.com/ChidcGithub/1k-ways-to-say-Hello-World)
 [![Last commit](https://img.shields.io/github/last-commit/ChidcGithub/1k-ways-to-say-Hello-World)](https://github.com/ChidcGithub/1k-ways-to-say-Hello-World/commits)
@@ -50,7 +50,7 @@ Whether you are a beginner looking for a friendly first PR, a polyglot chasing o
 
 ## Progress
 
-**327 / 1000** Hello Worlds collected. Breakdown by language:
+**427 / 1000** Hello Worlds collected. Breakdown by language:
 
 | Language | Count | Entry range | Highlights |
 |----------|-------|-------------|------------|
@@ -60,12 +60,12 @@ Whether you are a beginner looking for a friendly first PR, a polyglot chasing o
 | [c](hello-worlds/c/) | 51 | `#0002`, `#0178`–`#0227` | 5 paradigms (procedural/functional/generic/meta/concurrent), up to C23 |
 | [rust](hello-worlds/rust/) | 51 | `#0006`, `#0228`–`#0277` | 7 paradigms (procedural/oop/functional/generic/meta/concurrent/reactive), Rust 2021 edition |
 | [javascript](hello-worlds/javascript/) | 51 | `#0003`, `#0278`–`#0327` | 6 paradigms (procedural/oop/functional/reactive/declarative/concurrent), up to ES2024 |
-| [haskell](hello-worlds/haskell/) | 1 | `#0005` | Pure functional |
+| [haskell](hello-worlds/haskell/) | 101 | `#0005`, `#0328`–`#0427` | 7 paradigms (functional/procedural/generic/concurrent/meta/declarative/oop), TH, STM, GADTs, 3 eras |
 | [brainfuck](hello-worlds/brainfuck/) | 1 | `#0007` | 8-instruction esoteric |
 | [bash](hello-worlds/bash/) | 1 | `#0008` | Shell script |
-| **Total** | **327** | `#0001`–`#0327` | — |
+| **Total** | **427** | `#0001`–`#0427` | — |
 
-> The next free ID is **`#0328`**. See [Contributing](#contributing) to add yours.
+> The next free ID is **`#0428`**. See [Contributing](#contributing) to add yours.
 
 ---
 
@@ -118,8 +118,12 @@ Entries are **grouped by language** under `hello-worlds/<language>/<id>-<short-n
     │   ├── 0151-oop-factory-contemporary/
     │   ├── 0176-reactive-flow/
     │   └── ...
-    ├── haskell/                   # 1 entry (#0005)
-    │   └── 0005-functional/
+    ├── haskell/                   # 101 entries (#0005, #0328–#0427)
+    │   ├── 0005-functional/
+    │   ├── 0328-do-procedural/
+    │   ├── 0353-gadt-expr/
+    │   ├── 0427-composition-operator/
+    │   └── ...
     ├── rust/                      # 51 entries (#0006, #0228–#0277)
     │   ├── 0006-one-liner/
     │   ├── 0228-classic-println/
