@@ -425,7 +425,7 @@ button {
 	margin-top: 1em;
 }
 
-::focus-visible {
+:focus-visible {
 	outline: var(--bw) solid var(--accent);
 	outline-offset: 3px;
 	border-radius: 0;
