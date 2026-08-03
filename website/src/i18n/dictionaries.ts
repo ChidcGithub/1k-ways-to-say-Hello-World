@@ -55,7 +55,7 @@ export const zh = {
 		feature4Desc: '冷战时代的 FORTRAN、8 条指令的 Brainfuck——记录程序语言的演变史。',
 		featuredTitle: '代码艺术精选',
 		featuredSub: 'Quine · 混淆 · 代码高尔夫',
-		finalCtaTitle: '还有 573 种写法，等你来写',
+		finalCtaTitle: '还有 {0} 种写法，等你来写',
 		finalCtaSub: '每一次 PR，都是这本档案的一页新故事。',
 	},
 	explore: {
@@ -208,7 +208,7 @@ export const en: Dict = {
 		feature4Desc: 'Cold-War FORTRAN, 8-instruction Brainfuck — the evolution of programming languages.',
 		featuredTitle: 'Code art picks',
 		featuredSub: 'Quine · Obfuscated · Code golf',
-		finalCtaTitle: '573 ways left — yours could be next',
+		finalCtaTitle: '{0} ways left — yours could be next',
 		finalCtaSub: 'Every PR writes a new page of this archive.',
 	},
 	explore: {

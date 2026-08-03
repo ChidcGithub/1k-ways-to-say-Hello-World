@@ -18,6 +18,7 @@ const entries = await getCollection('entries');
 const total = entries.length;
 const languages = new Set(entries.map((e) => e.data.language)).size;
 const paradigms = new Set(entries.map((e) => e.data.paradigm)).size;
+const remaining = 1000 - total;
 const authors = new Set(entries.map((e) => e.data.author)).size;
 const featured = entries
 	.filter((e) => e.data.tags.includes('quine') || e.data.tags.includes('obfuscated') || e.data.tags.includes('code-golf'))
@@ -150,7 +151,7 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 <section class="container section center">
 	<Reveal>
 		<div class="card final-card">
-			<h2 class="section-title">{d.home.finalCtaTitle}</h2>
+			<h2 class="section-title">{d.home.finalCtaTitle.replace('{0}', String(remaining))}</h2>
 			<p class="section-sub muted">{d.home.finalCtaSub}</p>
 			<div class="hero-cta" style="justify-content:center">
 				<a class="btn btn-primary" href={`${prefix}/contribute`}>{d.home.ctaContribute}</a>
