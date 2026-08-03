@@ -61,11 +61,11 @@ Whether you are a beginner looking for a friendly first PR, a polyglot chasing o
 | [rust](hello-worlds/rust/) | 51 | `#0006`, `#0228`–`#0277` | 7 paradigms (procedural/oop/functional/generic/meta/concurrent/reactive), Rust 2021 edition |
 | [javascript](hello-worlds/javascript/) | 51 | `#0003`, `#0278`–`#0327` | 6 paradigms (procedural/oop/functional/reactive/declarative/concurrent), up to ES2024 |
 | [haskell](hello-worlds/haskell/) | 101 | `#0005`, `#0328`–`#0427` | 7 paradigms (functional/procedural/generic/concurrent/meta/declarative/oop), TH, STM, GADTs, 3 eras |
-| [brainfuck](hello-worlds/brainfuck/) | 31 | `#0007`, `#0388`–`#0407`, `#0418`–`#0427` | 8 paradigms (incl. stderr/file/network/wasm/embedded/cloud/oneliner/golf/obfuscated/quine/polyglot/ascii-art/audio/image), 31 entries total |
-| [bash](hello-worlds/bash/) | 51 | `#0008`, `#0328`–`#0377` | 7 paradigms (procedural/functional/reactive/declarative/concurrent/meta/obfuscated), 51 entries total |
-| **Total** | **507** | `#0001`–`#0427` | — |
+| [brainfuck](hello-worlds/brainfuck/) | 31 | `#0007`, `#0478`–`#0507` | 8 paradigms (incl. stderr/file/network/wasm/embedded/cloud/oneliner/golf/obfuscated/quine/polyglot/ascii-art/audio/image), 31 entries total |
+| [bash](hello-worlds/bash/) | 51 | `#0008`, `#0428`–`#0477` | 7 paradigms (procedural/functional/reactive/declarative/concurrent/meta/obfuscated), 51 entries total |
+| **Total** | **507** | `#0001`–`#0507` | — |
 
-> The next free ID is **`#0428`**. See [Contributing](#contributing) to add yours.
+> The next free ID is **`#0508`**. See [Contributing](#contributing) to add yours.
 
 ---
 
@@ -131,16 +131,16 @@ Entries are **grouped by language** under `hello-worlds/<language>/<id>-<short-n
     │   ├── 0261-macro-declarative/
     │   ├── 0273-audio-wav/
     │   └── ...
-    ├── brainfuck/                 # 31 entries (#0007, #0388–#0407, #0418–#0427)
+    ├── brainfuck/                 # 31 entries (#0007, #0478–#0507)
     │   ├── 0007-hello/
-    │   ├── 0388-stderr-wrapper/
+    │   ├── 0478-stderr-wrapper/
     │   ├── ...
-    │   └── 0427-contemporary-extended/
-    └── bash/                      # 51 entries (#0008, #0328–#0377)
+    │   └── 0507-contemporary-extended/
+    └── bash/                      # 51 entries (#0008, #0428–#0477)
         ├── 0008-script/
-        ├── 0328-echo-classic/
+        ├── 0428-echo-classic/
         ├── ...
-        └── 0377-declare-integer/
+        └── 0477-declare-integer/
 ```
 
 > Folder naming inside a language directory: `<id>-<short-name>` (the language is already implied by the parent directory, so it is not repeated in the folder name).

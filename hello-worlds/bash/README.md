@@ -1,62 +1,63 @@
 # Bash Hello Worlds
 
-- **Entries:** 51 (`#0008`, `#0328`–`#0377`)
+- **Entries:** 51 (#0008–#0477)
 - **Paradigms covered:** procedural, functional, reactive, declarative, concurrent, meta, obfuscated
 - **Output media covered:** stdout, stderr, file, network, gui, ascii-art, audio
-- **Platforms covered:** cli, cloud, embedded
+- **Platforms covered:** cli, cloud, embedded, desktop-gui
 
 | ID | Folder |
 |----|--------|
-| 0008 | [`0008-script/`](./0008-script/) |
-| 0328 | [`0328-echo-classic/`](./0328-echo-classic/) |
-| 0329 | [`0329-printf-format/`](./0329-printf-format/) |
-| 0330 | [`0330-printf-variable/`](./0330-printf-variable/) |
-| 0331 | [`0331-stderr-redirect/`](./0331-stderr-redirect/) |
-| 0332 | [`0332-stderr-printf/`](./0332-stderr-printf/) |
-| 0333 | [`0333-file-redirect/`](./0333-file-redirect/) |
-| 0334 | [`0334-file-append-tee/`](./0334-file-append-tee/) |
-| 0335 | [`0335-here-string/`](./0335-here-string/) |
-| 0336 | [`0336-heredoc/`](./0336-heredoc/) |
-| 0337 | [`0337-code-golf/`](./0337-code-golf/) |
-| 0338 | [`0338-function-greet/`](./0338-function-greet/) |
-| 0339 | [`0339-function-return/`](./0339-function-return/) |
-| 0340 | [`0340-subshell/`](./0340-subshell/) |
-| 0341 | [`0341-array-loop/`](./0341-array-loop/) |
-| 0342 | [`0342-array-join/`](./0342-array-join/) |
-| 0343 | [`0343-case-statement/`](./0343-case-statement/) |
-| 0344 | [`0344-if-conditional/`](./0344-if-conditional/) |
-| 0345 | [`0345-network-curl/`](./0345-network-curl/) |
-| 0346 | [`0346-network-netcat/`](./0346-network-netcat/) |
-| 0347 | [`0347-ascii-art/`](./0347-ascii-art/) |
-| 0348 | [`0348-oneliner/`](./0348-oneliner/) |
-| 0349 | [`0349-obfuscated-eval/`](./0349-obfuscated-eval/) |
-| 0350 | [`0350-obfuscated-base64/`](./0350-obfuscated-base64/) |
-| 0351 | [`0351-obfuscated-reversed/`](./0351-obfuscated-reversed/) |
-| 0352 | [`0352-quine/`](./0352-quine/) |
-| 0353 | [`0353-polyglot-bash-python/`](./0353-polyglot-bash-python/) |
-| 0354 | [`0354-background-parallel/`](./0354-background-parallel/) |
-| 0355 | [`0355-xargs-pipe/`](./0355-xargs-pipe/) |
-| 0356 | [`0356-sed-transform/`](./0356-sed-transform/) |
-| 0357 | [`0357-awk-greet/`](./0357-awk-greet/) |
-| 0358 | [`0358-dialog-gui/`](./0358-dialog-gui/) |
-| 0359 | [`0359-zenity-gui/`](./0359-zenity-gui/) |
-| 0360 | [`0360-while-read-loop/`](./0360-while-read-loop/) |
-| 0361 | [`0361-parameter-expansion/`](./0361-parameter-expansion/) |
-| 0362 | [`0362-string-concat/`](./0362-string-concat/) |
-| 0363 | [`0363-read-stdin/`](./0363-read-stdin/) |
-| 0364 | [`0364-here-doc-file/`](./0364-here-doc-file/) |
-| 0365 | [`0365-trap-signal/`](./0365-trap-signal/) |
-| 0366 | [`0366-sourced-script/`](./0366-sourced-script/) |
-| 0367 | [`0367-select-menu/`](./0367-select-menu/) |
-| 0368 | [`0368-mapfile-readarray/`](./0368-mapfile-readarray/) |
-| 0369 | [`0369-associative-array/`](./0369-associative-array/) |
-| 0370 | [`0370-coproc-parallel/`](./0370-coproc-parallel/) |
-| 0371 | [`0371-nameref-contemporary/`](./0371-nameref-contemporary/) |
-| 0372 | [`0372-brace-expansion/`](./0372-brace-expansion/) |
-| 0373 | [`0373-cloud-aws-cli/`](./0373-cloud-aws-cli/) |
-| 0374 | [`0374-embedded-busybox/`](./0374-embedded-busybox/) |
-| 0375 | [`0375-audio-beep/`](./0375-audio-beep/) |
-| 0376 | [`0376-env-variable/`](./0376-env-variable/) |
-| 0377 | [`0377-declare-integer/`](./0377-declare-integer/) |
+| 0008 | [`script`](./0008-script/) |
+| 0008 | [`script`](./0008-script/) |
+| 0428 | [`echo-classic`](./0428-echo-classic/) |
+| 0429 | [`printf-format`](./0429-printf-format/) |
+| 0430 | [`printf-variable`](./0430-printf-variable/) |
+| 0431 | [`stderr-redirect`](./0431-stderr-redirect/) |
+| 0432 | [`stderr-printf`](./0432-stderr-printf/) |
+| 0433 | [`file-redirect`](./0433-file-redirect/) |
+| 0434 | [`file-append-tee`](./0434-file-append-tee/) |
+| 0435 | [`here-string`](./0435-here-string/) |
+| 0436 | [`heredoc`](./0436-heredoc/) |
+| 0437 | [`code-golf`](./0437-code-golf/) |
+| 0438 | [`function-greet`](./0438-function-greet/) |
+| 0439 | [`function-return`](./0439-function-return/) |
+| 0440 | [`subshell`](./0440-subshell/) |
+| 0441 | [`array-loop`](./0441-array-loop/) |
+| 0442 | [`array-join`](./0442-array-join/) |
+| 0443 | [`case-statement`](./0443-case-statement/) |
+| 0444 | [`if-conditional`](./0444-if-conditional/) |
+| 0445 | [`network-curl`](./0445-network-curl/) |
+| 0446 | [`network-netcat`](./0446-network-netcat/) |
+| 0447 | [`ascii-art`](./0447-ascii-art/) |
+| 0448 | [`oneliner`](./0448-oneliner/) |
+| 0449 | [`obfuscated-eval`](./0449-obfuscated-eval/) |
+| 0450 | [`obfuscated-base64`](./0450-obfuscated-base64/) |
+| 0451 | [`obfuscated-reversed`](./0451-obfuscated-reversed/) |
+| 0452 | [`quine`](./0452-quine/) |
+| 0453 | [`polyglot-bash-python`](./0453-polyglot-bash-python/) |
+| 0454 | [`background-parallel`](./0454-background-parallel/) |
+| 0455 | [`xargs-pipe`](./0455-xargs-pipe/) |
+| 0456 | [`sed-transform`](./0456-sed-transform/) |
+| 0457 | [`awk-greet`](./0457-awk-greet/) |
+| 0458 | [`dialog-gui`](./0458-dialog-gui/) |
+| 0459 | [`zenity-gui`](./0459-zenity-gui/) |
+| 0460 | [`while-read-loop`](./0460-while-read-loop/) |
+| 0461 | [`parameter-expansion`](./0461-parameter-expansion/) |
+| 0462 | [`string-concat`](./0462-string-concat/) |
+| 0463 | [`read-stdin`](./0463-read-stdin/) |
+| 0464 | [`here-doc-file`](./0464-here-doc-file/) |
+| 0465 | [`trap-signal`](./0465-trap-signal/) |
+| 0466 | [`sourced-script`](./0466-sourced-script/) |
+| 0467 | [`select-menu`](./0467-select-menu/) |
+| 0468 | [`mapfile-readarray`](./0468-mapfile-readarray/) |
+| 0469 | [`associative-array`](./0469-associative-array/) |
+| 0470 | [`coproc-parallel`](./0470-coproc-parallel/) |
+| 0471 | [`nameref-contemporary`](./0471-nameref-contemporary/) |
+| 0472 | [`brace-expansion`](./0472-brace-expansion/) |
+| 0473 | [`cloud-aws-cli`](./0473-cloud-aws-cli/) |
+| 0474 | [`embedded-busybox`](./0474-embedded-busybox/) |
+| 0475 | [`audio-beep`](./0475-audio-beep/) |
+| 0476 | [`env-variable`](./0476-env-variable/) |
+| 0477 | [`declare-integer`](./0477-declare-integer/) |
 
 See the project root [README](../../README.md) for the full taxonomy and contributing guide.
