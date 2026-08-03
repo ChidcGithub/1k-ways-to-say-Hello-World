@@ -225,27 +225,40 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 	observer.observe(el);
 })();
 
-// Randomly show 6 featured items
+// Randomly show 6 featured items when scrolled into view
 (function () {
+	var section = document.getElementById('featured-section');
+	if (!section) return;
 	var grid = document.getElementById('featured-grid');
 	if (!grid) return;
 	var items = Array.from(grid.querySelectorAll('.featured-item'));
-	if (items.length <= 6) {
-		items.forEach(function (el) { el.style.display = ''; });
-		return;
-	}
-	// Fisher-Yates shuffle then take first 6
-	for (var i = items.length - 1; i > 0; i--) {
-		var j = Math.floor(Math.random() * (i + 1));
-		var tmp = items[i];
-		items[i] = items[j];
-		items[j] = tmp;
-	}
-	items.slice(0, 6).forEach(function (el, i) {
-		el.style.display = '';
-		el.style.animationDelay = (i * 0.08) + 's';
-		el.classList.add('fade-up');
-	});
+	if (items.length === 0) return;
+
+	var shown = false;
+	var observer = new IntersectionObserver(
+		function (entries) {
+			if (entries[0].isIntersecting && !shown) {
+				shown = true;
+				var picks = items;
+				if (picks.length > 6) {
+					for (var i = picks.length - 1; i > 0; i--) {
+						var j = Math.floor(Math.random() * (i + 1));
+						var tmp = picks[i];
+						picks[i] = picks[j];
+						picks[j] = tmp;
+					}
+					picks = picks.slice(0, 6);
+				}
+				picks.forEach(function (el, i) {
+					el.style.display = '';
+					el.style.animationDelay = (i * 0.08) + 's';
+					el.classList.add('fade-up');
+				});
+			}
+		},
+		{ threshold: 0.2 }
+	);
+	observer.observe(section);
 })();
 </script>
 
