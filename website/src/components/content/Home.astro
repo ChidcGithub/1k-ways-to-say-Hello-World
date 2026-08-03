@@ -251,8 +251,8 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 				}
 				picks.forEach(function (el, i) {
 					el.style.display = '';
-					el.style.animationDelay = (i * 0.08) + 's';
-					el.classList.add('fade-up');
+					el.style.transitionDelay = (i * 0.07) + 's';
+					el.classList.add('reveal-in');
 				});
 			}
 		},
@@ -502,19 +502,17 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 		line-height: 1.35;
 	}
 
-	.featured-item.fade-up {
-		animation: fadeUpIn 0.45s var(--ease-pop) both;
+	.featured-item {
+		opacity: 0;
+		transform: translateY(28px) scale(0.92) rotate(-1.2deg);
+		transition:
+			opacity 0.45s var(--ease-pop),
+			transform 0.45s var(--ease-pop);
 	}
 
-	@keyframes fadeUpIn {
-		from {
-			opacity: 0;
-			transform: translateY(18px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
+	.featured-item.reveal-in {
+		opacity: 1;
+		transform: translateY(0) scale(1) rotate(0deg);
 	}
 
 	.final-card {
