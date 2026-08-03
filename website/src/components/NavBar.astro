@@ -24,7 +24,7 @@ const path = Astro.props.currentPath;
 const otherHref =
 	path === '/'
 		? `${otherPrefix}/`
-		: path.replace(/^\/(zh|en)/, otherPrefix) || `${otherPrefix}/`;
+		: otherPrefix + path.replace(/^\/(en)/, '');
 ---
 
 <header class="nav" id="site-nav">
