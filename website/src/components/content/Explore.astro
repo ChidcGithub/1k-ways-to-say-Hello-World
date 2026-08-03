@@ -32,7 +32,7 @@ const label = (dim: 'paradigm' | 'output' | 'platform' | 'era' | 'tags', v: stri
 						? ERA_LABEL[v]?.en ?? v
 						: TAG_LABEL[v]?.en ?? v;
 
-const entries = (await getCollection('entries')).sort((a, b) => a.data.id.localeCompare(b.data.id));
+const entries = (await getCollection('entries')).sort((a, b) => a.data.numericId.localeCompare(b.data.numericId));
 
 const languages = [...new Set(entries.map((e) => e.data.language))].sort();
 const paradigms = [...new Set(entries.map((e) => e.data.paradigm))].sort();
@@ -49,7 +49,7 @@ for (const e of entries) {
 }
 
 const searchable = (e: (typeof entries)[number]) =>
-	`${e.data.id} ${e.data.title} ${e.data.author} ${e.data.notes}`.toLowerCase();
+	`${e.data.numericId} ${e.data.title} ${e.data.author} ${e.data.notes}`.toLowerCase();
 const dataTags = (e: (typeof entries)[number]) => e.data.tags.join(',');
 ---
 
@@ -132,7 +132,7 @@ const dataTags = (e: (typeof entries)[number]) => e.data.tags.join(',');
 								<a
 									class="card entry-card card-hover"
 									href={`${prefix}/entry/${e.data.id}`}
-									data-id={e.data.id}
+									data-id={e.data.numericId}
 									data-lang={e.data.language}
 									data-paradigm={e.data.paradigm}
 									data-output={e.data.output}
@@ -141,7 +141,7 @@ const dataTags = (e: (typeof entries)[number]) => e.data.tags.join(',');
 									data-tags={dataTags(e)}
 									data-search={searchable(e)}
 								>
-									<span class="entry-id">#{e.data.id}</span>
+									<span class="entry-id">#{e.data.numericId}</span>
 									<span class="entry-title">{e.data.title}</span>
 									<span class="entry-chips">
 										<span class="chip">{label('paradigm', e.data.paradigm)}</span>

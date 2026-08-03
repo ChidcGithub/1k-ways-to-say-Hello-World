@@ -15,6 +15,6 @@ export async function getStaticPaths() {
 const { entry } = Astro.props as { entry: CollectionEntry<'entries'> };
 ---
 
-<BaseLayout locale={locale} title={`#${entry.data.id} · ${entry.data.title} — ${d.meta.title}`} description={entry.data.notes}>
+<BaseLayout locale={locale} title={`#${entry.data.numericId} · ${entry.data.title} — ${d.meta.title}`} description={entry.data.notes}>
 	<EntryContent locale={locale} entry={entry} />
 </BaseLayout>

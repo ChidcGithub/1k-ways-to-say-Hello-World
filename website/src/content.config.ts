@@ -17,7 +17,8 @@ const TAGS = ['one-liner', 'code-golf', 'obfuscated', 'quine', 'ascii-art', 'pol
 export const collections = {
 	entries: defineCollection({
 		schema: z.object({
-			id: z.string().regex(/^\d{4}$/),
+			id: z.string(),
+			numericId: z.string(),
 			language: z.string(),
 			paradigm: z.enum(PARADIGMS),
 			output: z.enum(OUTPUTS),

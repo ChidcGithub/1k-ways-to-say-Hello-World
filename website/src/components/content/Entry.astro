@@ -16,8 +16,8 @@ const d = dictionaries[locale];
 const prefix = locale === 'zh' ? '' : '/en';
 const L = (m: Record<string, Record<Locale, string>>, v: string) => m[v]?.[locale] ?? v;
 
-const all = (await getCollection('entries')).sort((a, b) => a.data.id.localeCompare(b.data.id));
-const idx = all.findIndex((e) => e.data.id === entry.data.id);
+const all = (await getCollection('entries')).sort((a, b) => a.data.numericId.localeCompare(b.data.numericId));
+const idx = all.findIndex((e) => e.data.numericId === entry.data.numericId && e.data.language === entry.data.language);
 const prev = idx > 0 ? all[idx - 1] : null;
 const next = idx < all.length - 1 ? all[idx + 1] : null;
 
@@ -32,11 +32,11 @@ const openLink = `${REPO}/tree/main/${entry.data.path}`;
 		<span class="crumb-sep">/</span>
 		<a href={`${prefix}/explore?language=${entry.data.language}`}>{entry.data.language}</a>
 		<span class="crumb-sep">/</span>
-		<span class="crumb-current">#{entry.data.id}</span>
+		<span class="crumb-current">#{entry.data.numericId}</span>
 	</nav>
 
 	<header class="entry-head">
-		<span class="entry-id-sticker">#{entry.data.id}</span>
+		<span class="entry-id-sticker">#{entry.data.numericId}</span>
 		<h1 class="entry-title">{entry.data.title}</h1>
 		<p class="entry-notes muted">{entry.data.notes}</p>
 		<div class="entry-chips">
@@ -97,7 +97,7 @@ const openLink = `${REPO}/tree/main/${entry.data.path}`;
 		{prev ? (
 			<a class="card entry-nav-card card-hover" href={`${prefix}/entry/${prev.data.id}`}>
 				<span class="entry-nav-dir">← {d.common.prev}</span>
-				<span class="entry-nav-title">#{prev.data.id} · {prev.data.title}</span>
+				<span class="entry-nav-title">#{prev.data.numericId} · {prev.data.title}</span>
 			</a>
 		) : (
 			<span />
@@ -105,7 +105,7 @@ const openLink = `${REPO}/tree/main/${entry.data.path}`;
 		{next ? (
 			<a class="card entry-nav-card card-hover right" href={`${prefix}/entry/${next.data.id}`}>
 				<span class="entry-nav-dir">{d.common.next} →</span>
-				<span class="entry-nav-title">#{next.data.id} · {next.data.title}</span>
+				<span class="entry-nav-title">#{next.data.numericId} · {next.data.title}</span>
 			</a>
 		) : (
 			<span />

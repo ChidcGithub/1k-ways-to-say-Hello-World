@@ -101,9 +101,11 @@ export function parseEntry(lang: string, folderName: string, readmePath: string,
 	if (!data.id || !data.language) return null;
 	const tags = Array.isArray(data.tags) ? data.tags.map((t) => String(t)) : [];
 	const { code, codeLang } = extractSource(content);
+	const nid = folderName.slice(0, 4);
 	const relPath = join('hello-worlds', lang, folderName).replaceAll('\\', '/');
 	return {
-		id: folderName.slice(0, 4),
+		id: `${lang}-${nid}`,
+		numericId: nid,
 		language: data.language,
 		paradigm: data.paradigm,
 		output: data.output,

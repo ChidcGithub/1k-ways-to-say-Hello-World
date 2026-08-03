@@ -1,5 +1,6 @@
 export interface Entry {
 	id: string;
+	numericId: string;
 	language: string;
 	paradigm: string;
 	output: string;

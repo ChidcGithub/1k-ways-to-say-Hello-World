@@ -14,7 +14,8 @@ const ERAS = ['vintage', 'classic', 'modern', 'contemporary'] as const;
 const TAGS = ['one-liner', 'code-golf', 'obfuscated', 'quine', 'ascii-art', 'polyglot', 'self-hosted', 'parallel', 'distributed', 'shader', 'ai-generated', 'hand-assembled'] as const;
 
 const schema = z.object({
-	id: z.string().regex(/^\d{4}$/),
+	id: z.string(),
+	numericId: z.string(),
 	language: z.string(),
 	paradigm: z.enum(PARADIGMS),
 	output: z.enum(OUTPUTS),
