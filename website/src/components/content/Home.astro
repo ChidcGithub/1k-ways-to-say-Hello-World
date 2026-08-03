@@ -253,12 +253,13 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 				}
 				picks.forEach(function (el, i) {
 				el.classList.add('picked');
-				el.style.setProperty('--r-delay', (i * 0.07) + 's');
-				requestAnimationFrame(function () {
-					requestAnimationFrame(function () {
-						el.classList.add('reveal-in');
-					});
-				});
+				el.animate(
+					[
+						{ opacity: 0, transform: 'translateY(28px) scale(0.92) rotate(-1.2deg)' },
+						{ opacity: 1, transform: 'translateY(0) scale(1) rotate(0deg)' },
+					],
+					{ duration: 450, delay: i * 70, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', fill: 'forwards' }
+				);
 			});
 			}
 		},
@@ -510,12 +511,7 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 
 	.reveal-wrap {
 		opacity: 0;
-		visibility: hidden;
 		transform: translateY(28px) scale(0.92) rotate(-1.2deg);
-		transition:
-			opacity 0.45s var(--ease-pop),
-			transform 0.45s var(--ease-pop),
-			visibility 0s 0.45s;
 	}
 
 	.reveal-wrap.featured-item {
@@ -524,13 +520,6 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 
 	.reveal-wrap.featured-item.picked {
 		display: block;
-	}
-
-	.reveal-wrap.reveal-in {
-		opacity: 1;
-		visibility: visible;
-		transform: translateY(0) scale(1) rotate(0deg);
-		transition-delay: var(--r-delay, 0s), var(--r-delay, 0s), 0s;
 	}
 
 	.final-card {
