@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+awk 'BEGIN { print "Hello, World!" }'

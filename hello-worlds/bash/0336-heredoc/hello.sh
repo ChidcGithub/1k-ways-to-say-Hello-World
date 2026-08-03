@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+cat <<EOF
+Hello, World!
+EOF
