@@ -94,20 +94,21 @@ const otherHref =
 		justify-content: center;
 		width: 34px;
 		height: 34px;
-		background: var(--c-teal);
-		color: #1a1a1a;
+		background: var(--ink);
+		color: var(--paper);
 		border: var(--bw) solid var(--ink);
 		box-shadow: var(--shadow-sm);
 		font-family: var(--mono);
 		font-size: 14px;
 		font-weight: 700;
 		transform: rotate(-4deg);
-		transition: transform 0.25s var(--ease-pop), background 0.2s;
+		transition: transform 0.25s var(--ease-pop), background 0.2s, color 0.2s;
 	}
 
 	.nav-logo:hover .nav-logo-mark {
 		animation: wiggle 0.4s var(--ease-pop) infinite;
-		background: var(--c-yellow);
+		background: var(--accent);
+		color: #1a1a1a;
 	}
 
 	.nav-logo-x {
