@@ -106,9 +106,30 @@ const otherHref =
 	}
 
 	.nav-logo:hover .nav-logo-mark {
-		animation: wiggle 0.4s var(--ease-pop) infinite;
-		background: var(--accent);
-		color: #1a1a1a;
+		animation: flashInvert 2s ease-in-out infinite;
+	}
+
+	@keyframes flashInvert {
+		0% {
+			background: var(--ink);
+			color: var(--paper);
+		}
+		10% {
+			background: var(--paper);
+			color: var(--ink);
+		}
+		25% {
+			background: var(--paper);
+			color: var(--ink);
+		}
+		40% {
+			background: var(--ink);
+			color: var(--paper);
+		}
+		100% {
+			background: var(--ink);
+			color: var(--paper);
+		}
 	}
 
 	.nav-logo-x {
