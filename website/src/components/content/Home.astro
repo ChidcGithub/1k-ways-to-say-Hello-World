@@ -130,13 +130,15 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 			<div class="featured-grid" id="featured-grid">
 				{
 					featured.map((e) => (
-						<a class="card featured-card card-hover featured-item" href={`${prefix}/entry/${e.data.id}`} style="display:none">
-							<span class="featured-top">
-								<span class="featured-id">#{e.data.numericId}</span>
-								<span class="chip chip-accent">{e.data.language}</span>
-							</span>
-							<span class="featured-title">{e.data.title}</span>
-						</a>
+						<div class="reveal-wrap featured-item" style="display:none">
+							<a class="card featured-card card-hover" href={`${prefix}/entry/${e.data.id}`}>
+								<span class="featured-top">
+									<span class="featured-id">#{e.data.numericId}</span>
+									<span class="chip chip-accent">{e.data.language}</span>
+								</span>
+								<span class="featured-title">{e.data.title}</span>
+							</a>
+						</div>
 					))
 				}
 			</div>
@@ -231,15 +233,15 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 	if (!section) return;
 	var grid = document.getElementById('featured-grid');
 	if (!grid) return;
-	var items = Array.from(grid.querySelectorAll('.featured-item'));
-	if (items.length === 0) return;
+	var wraps = Array.from(grid.querySelectorAll('.reveal-wrap.featured-item'));
+	if (wraps.length === 0) return;
 
 	var shown = false;
 	var observer = new IntersectionObserver(
 		function (entries) {
 			if (entries[0].isIntersecting && !shown) {
 				shown = true;
-				var picks = items;
+				var picks = wraps;
 				if (picks.length > 6) {
 					for (var i = picks.length - 1; i > 0; i--) {
 						var j = Math.floor(Math.random() * (i + 1));
@@ -502,7 +504,7 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 		line-height: 1.35;
 	}
 
-	.featured-item {
+	.reveal-wrap {
 		opacity: 0;
 		transform: translateY(28px) scale(0.92) rotate(-1.2deg);
 		transition:
@@ -510,7 +512,7 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 			transform 0.45s var(--ease-pop);
 	}
 
-	.featured-item.reveal-in {
+	.reveal-wrap.reveal-in {
 		opacity: 1;
 		transform: translateY(0) scale(1) rotate(0deg);
 	}
