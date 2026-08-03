@@ -129,16 +129,14 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 			<p class="section-sub muted">{d.home.featuredSub}</p>
 			<div class="featured-grid" id="featured-grid">
 				{
-					featured.map((e, i) => (
-						<Reveal delay={i * 70}>
-							<a class="card featured-card card-hover featured-item" href={`${prefix}/entry/${e.data.id}`} style="display:none">
-								<span class="featured-top">
-									<span class="featured-id">#{e.data.numericId}</span>
-									<span class="chip chip-accent">{e.data.language}</span>
-								</span>
-								<span class="featured-title">{e.data.title}</span>
-							</a>
-						</Reveal>
+					featured.map((e) => (
+						<a class="card featured-card card-hover featured-item" href={`${prefix}/entry/${e.data.id}`} style="display:none">
+							<span class="featured-top">
+								<span class="featured-id">#{e.data.numericId}</span>
+								<span class="chip chip-accent">{e.data.language}</span>
+							</span>
+							<span class="featured-title">{e.data.title}</span>
+						</a>
 					))
 				}
 			</div>
@@ -243,7 +241,11 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 		items[i] = items[j];
 		items[j] = tmp;
 	}
-	items.slice(0, 6).forEach(function (el) { el.style.display = ''; });
+	items.slice(0, 6).forEach(function (el, i) {
+		el.style.display = '';
+		el.style.animationDelay = (i * 0.08) + 's';
+		el.classList.add('fade-up');
+	});
 })();
 </script>
 
@@ -485,6 +487,21 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 		font-size: 16.5px;
 		font-weight: 700;
 		line-height: 1.35;
+	}
+
+	.featured-item.fade-up {
+		animation: fadeUpIn 0.45s var(--ease-pop) both;
+	}
+
+	@keyframes fadeUpIn {
+		from {
+			opacity: 0;
+			transform: translateY(18px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
 	}
 
 	.final-card {
