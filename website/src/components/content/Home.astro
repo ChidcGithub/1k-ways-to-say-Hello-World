@@ -130,7 +130,7 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 			<div class="featured-grid" id="featured-grid">
 				{
 					featured.map((e) => (
-						<div class="reveal-wrap featured-item" style="display:none">
+						<div class="reveal-wrap featured-item">
 							<a class="card featured-card card-hover" href={`${prefix}/entry/${e.data.id}`}>
 								<span class="featured-top">
 									<span class="featured-id">#{e.data.numericId}</span>
@@ -252,10 +252,14 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 					picks = picks.slice(0, 6);
 				}
 				picks.forEach(function (el, i) {
-					el.style.display = '';
-					el.style.transitionDelay = (i * 0.07) + 's';
-					el.classList.add('reveal-in');
+				el.classList.add('picked');
+				el.style.setProperty('--r-delay', (i * 0.07) + 's');
+				requestAnimationFrame(function () {
+					requestAnimationFrame(function () {
+						el.classList.add('reveal-in');
+					});
 				});
+			});
 			}
 		},
 		{ threshold: 0.2 }
@@ -506,15 +510,27 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 
 	.reveal-wrap {
 		opacity: 0;
+		visibility: hidden;
 		transform: translateY(28px) scale(0.92) rotate(-1.2deg);
 		transition:
 			opacity 0.45s var(--ease-pop),
-			transform 0.45s var(--ease-pop);
+			transform 0.45s var(--ease-pop),
+			visibility 0s 0.45s;
+	}
+
+	.reveal-wrap.featured-item {
+		display: none;
+	}
+
+	.reveal-wrap.featured-item.picked {
+		display: block;
 	}
 
 	.reveal-wrap.reveal-in {
 		opacity: 1;
+		visibility: visible;
 		transform: translateY(0) scale(1) rotate(0deg);
+		transition-delay: var(--r-delay, 0s), var(--r-delay, 0s), 0s;
 	}
 
 	.final-card {
