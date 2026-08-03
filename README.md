@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](docs/CONTRIBUTING.md)
-[![Hello Worlds](https://img.shields.io/badge/Hello%20Worlds-427%2F1000-blue)](#progress)
+[![Hello Worlds](https://img.shields.io/badge/Hello%20Worlds-507%2F1000-blue)](#progress)
 [![GitHub stars](https://img.shields.io/github/stars/ChidcGithub/1k-ways-to-say-Hello-World)](https://github.com/ChidcGithub/1k-ways-to-say-Hello-World/stargazers)
 [![GitHub repo size](https://img.shields.io/github/repo-size/ChidcGithub/1k-ways-to-say-Hello-World)](https://github.com/ChidcGithub/1k-ways-to-say-Hello-World)
 [![Last commit](https://img.shields.io/github/last-commit/ChidcGithub/1k-ways-to-say-Hello-World)](https://github.com/ChidcGithub/1k-ways-to-say-Hello-World/commits)
@@ -50,7 +50,7 @@ Whether you are a beginner looking for a friendly first PR, a polyglot chasing o
 
 ## Progress
 
-**427 / 1000** Hello Worlds collected. Breakdown by language:
+**507 / 1000** Hello Worlds collected. Breakdown by language:
 
 | Language | Count | Entry range | Highlights |
 |----------|-------|-------------|------------|
@@ -61,9 +61,9 @@ Whether you are a beginner looking for a friendly first PR, a polyglot chasing o
 | [rust](hello-worlds/rust/) | 51 | `#0006`, `#0228`–`#0277` | 7 paradigms (procedural/oop/functional/generic/meta/concurrent/reactive), Rust 2021 edition |
 | [javascript](hello-worlds/javascript/) | 51 | `#0003`, `#0278`–`#0327` | 6 paradigms (procedural/oop/functional/reactive/declarative/concurrent), up to ES2024 |
 | [haskell](hello-worlds/haskell/) | 101 | `#0005`, `#0328`–`#0427` | 7 paradigms (functional/procedural/generic/concurrent/meta/declarative/oop), TH, STM, GADTs, 3 eras |
-| [brainfuck](hello-worlds/brainfuck/) | 1 | `#0007` | 8-instruction esoteric |
-| [bash](hello-worlds/bash/) | 1 | `#0008` | Shell script |
-| **Total** | **427** | `#0001`–`#0427` | — |
+| [brainfuck](hello-worlds/brainfuck/) | 31 | `#0007`, `#0388`–`#0407`, `#0418`–`#0427` | 8 paradigms (incl. stderr/file/network/wasm/embedded/cloud/oneliner/golf/obfuscated/quine/polyglot/ascii-art/audio/image), 31 entries total |
+| [bash](hello-worlds/bash/) | 51 | `#0008`, `#0328`–`#0377` | 7 paradigms (procedural/functional/reactive/declarative/concurrent/meta/obfuscated), 51 entries total |
+| **Total** | **507** | `#0001`–`#0427` | — |
 
 > The next free ID is **`#0428`**. See [Contributing](#contributing) to add yours.
 
@@ -131,10 +131,16 @@ Entries are **grouped by language** under `hello-worlds/<language>/<id>-<short-n
     │   ├── 0261-macro-declarative/
     │   ├── 0273-audio-wav/
     │   └── ...
-    ├── brainfuck/                 # 1 entry (#0007)
-    │   └── 0007-hello/
-    └── bash/                      # 1 entry (#0008)
-        └── 0008-script/
+    ├── brainfuck/                 # 31 entries (#0007, #0388–#0407, #0418–#0427)
+    │   ├── 0007-hello/
+    │   ├── 0388-stderr-wrapper/
+    │   ├── ...
+    │   └── 0427-contemporary-extended/
+    └── bash/                      # 51 entries (#0008, #0328–#0377)
+        ├── 0008-script/
+        ├── 0328-echo-classic/
+        ├── ...
+        └── 0377-declare-integer/
 ```
 
 > Folder naming inside a language directory: `<id>-<short-name>` (the language is already implied by the parent directory, so it is not repeated in the folder name).
