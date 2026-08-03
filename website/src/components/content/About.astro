@@ -14,6 +14,8 @@ const d = dictionaries[locale];
 const entries = await getCollection('entries');
 const total = entries.length;
 const languages = new Set(entries.map((e) => e.data.language)).size;
+const maxNid = Math.max(...entries.map((e) => parseInt(e.data.numericId, 10)));
+const nextId = String(maxNid + 1).padStart(4, '0');
 
 const dims = [
 	['language', 'python · cpp · c · rust · java · haskell · brainfuck · assembly-x86 …'],
@@ -28,7 +30,7 @@ const dimColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c-
 
 const faqs = [
 	[d.about.faq1Q, d.about.faq1A],
-	[d.about.faq2Q, d.about.faq2A],
+	[d.about.faq2Q, `${d.about.faq2A}${locale === 'zh' ? `现在可用的序号是 #${nextId}。` : ` The next available ID is #${nextId}.`}`],
 	[d.about.faq3Q, d.about.faq3A],
 	[d.about.faq4Q, d.about.faq4A],
 	[d.about.faq5Q, d.about.faq5A],
