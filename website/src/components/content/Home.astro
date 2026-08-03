@@ -150,8 +150,12 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 
 <section class="container section center">
 	<Reveal>
-		<div class="card final-card">
-			<h2 class="section-title">{d.home.finalCtaTitle.replace('{0}', String(remaining))}</h2>
+		<div class="card final-card" id="final-cta" data-remaining={remaining}>
+			<h2 class="section-title">
+				<span class="cta-prefix">{d.home.finalCtaPrefix}</span>
+				<span class="cta-count" id="cta-count">1000</span>
+				<span class="cta-suffix">{d.home.finalCtaSuffix}</span>
+			</h2>
 			<p class="section-sub muted">{d.home.finalCtaSub}</p>
 			<div class="hero-cta" style="justify-content:center">
 				<a class="btn btn-primary" href={`${prefix}/contribute`}>{d.home.ctaContribute}</a>
@@ -159,6 +163,70 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 		</div>
 	</Reveal>
 </section>
+
+<script>
+// @ts-nocheck
+(function () {
+	var el = document.getElementById('final-cta');
+	if (!el) return;
+	var counterEl = document.getElementById('cta-count');
+	if (!counterEl) return;
+	const counter = counterEl;
+
+	const remaining = parseInt(el.dataset.remaining || '0', 10);
+	const target = remaining;
+	const duration = 1800;
+	const pause = 500;
+
+	let triggered = false;
+
+	/**
+	 * @param {number} t
+	 * @returns {number}
+	 */
+	function easeOutExpo(t) {
+		return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+	}
+	/**
+	 * @param {number} startTime
+	 * @returns {void}
+	 */
+	function animateCountdown(startTime) {
+		const elapsed = Date.now() - startTime;
+		const progress = Math.min(elapsed / duration, 1);
+		const t = easeOutExpo(progress);
+		counter.textContent = String(Math.round(1000 - t * (1000 - target)));
+
+		if (progress < 1) {
+			requestAnimationFrame(() => animateCountdown(startTime));
+		} else {
+			setTimeout(() => {
+				counter.classList.add('crossing');
+				setTimeout(() => {
+					counter.classList.add('faded');
+					setTimeout(() => {
+						counter.classList.remove('crossing', 'faded');
+						counter.textContent = String(target);
+						counter.classList.add('settled');
+					}, 300);
+				}, 600);
+			}, pause);
+		}
+	};
+
+	const observer = new IntersectionObserver(
+		(entries) => {
+			if (entries[0].isIntersecting && !triggered) {
+				triggered = true;
+				requestAnimationFrame(() => animateCountdown(Date.now()));
+			}
+		},
+		{ threshold: 0.3 }
+	);
+
+	observer.observe(el);
+})();
+</script>
 
 <style>
 	.hero {
@@ -416,6 +484,42 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 		.marquee {
 			transform: none;
 		}
+	}
+
+	/* ---- final cta count animation ---- */
+	.cta-count {
+		display: inline-block;
+		font-feature-settings: "tnum" 1;
+		font-variant-numeric: tabular-nums;
+		min-width: 3.5ch;
+		text-align: center;
+		position: relative;
+		transition: opacity 0.35s ease;
+	}
+
+	.cta-count.crossing::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 50%;
+		height: 3px;
+		background: var(--c-red);
+		transform: translateY(-50%) scaleX(0);
+		transform-origin: left center;
+		animation: crossLine 0.5s 0.05s ease forwards;
+	}
+
+	@keyframes crossLine {
+		to { transform: translateY(-50%) scaleX(1); }
+	}
+
+	.cta-count.faded {
+		opacity: 0;
+	}
+
+	.cta-count.settled {
+		opacity: 1;
 	}
 </style>
 
