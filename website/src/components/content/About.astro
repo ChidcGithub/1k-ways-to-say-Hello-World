@@ -14,8 +14,7 @@ const d = dictionaries[locale];
 const entries = await getCollection('entries');
 const total = entries.length;
 const languages = new Set(entries.map((e) => e.data.language)).size;
-const maxNid = Math.max(...entries.map((e) => parseInt(e.data.numericId, 10)));
-const nextId = String(maxNid + 1).padStart(4, '0');
+const nextId = String(total + 1).padStart(4, '0');
 
 const dims = [
 	['language', 'python · cpp · c · rust · java · haskell · brainfuck · assembly-x86 …'],
