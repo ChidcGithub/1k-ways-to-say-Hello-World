@@ -22,6 +22,7 @@ const remaining = 1000 - total;
 const authors = new Set(entries.map((e) => e.data.author)).size;
 const featured = entries
 	.filter((e) => e.data.tags.includes('quine') || e.data.tags.includes('obfuscated') || e.data.tags.includes('code-golf'))
+	.sort(() => Math.random() - 0.5)
 	.slice(0, 6);
 
 const tickerLangs = [...new Set(entries.map((e) => e.data.language))].slice(0, 14);
