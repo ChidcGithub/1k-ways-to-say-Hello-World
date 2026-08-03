@@ -414,19 +414,13 @@ const faqs = [
 	}
 
 	.faq-a {
-		display: grid;
-		grid-template-rows: 0fr;
+		max-height: 0;
 		overflow: hidden;
-		transition: grid-template-rows 0.35s var(--ease-snap);
-	}
-
-	.faq-a > * {
-		overflow: hidden;
-		min-height: 0;
+		transition: max-height 0.35s var(--ease-snap);
 	}
 
 	.faq-item.open .faq-a {
-		grid-template-rows: 1fr;
+		max-height: 60rem;
 	}
 
 	.faq-a-inner {
