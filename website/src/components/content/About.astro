@@ -108,7 +108,7 @@ const faqs = [
 							<span class="faq-text">{q}</span>
 							<span class="faq-toggle" aria-hidden="true">+</span>
 						</button>
-						<div class="faq-a"><p class="muted">{a}</p></div>
+						<div class="faq-a"><div class="faq-a-inner"><p class="muted">{a}</p></div></div>
 					</div>
 				</Reveal>
 			))
@@ -416,7 +416,8 @@ const faqs = [
 	.faq-a {
 		display: grid;
 		grid-template-rows: 0fr;
-		transition: grid-template-rows 0.3s var(--ease-snap);
+		overflow: hidden;
+		transition: grid-template-rows 0.35s var(--ease-snap);
 	}
 
 	.faq-a > * {
@@ -428,9 +429,12 @@ const faqs = [
 		grid-template-rows: 1fr;
 	}
 
+	.faq-a-inner {
+		padding: 0 20px 18px 66px;
+	}
+
 	.faq-a p {
 		margin: 0;
-		padding: 0 20px 18px 66px;
 		font-size: 15px;
 		line-height: 1.7;
 	}
@@ -453,7 +457,7 @@ const faqs = [
 		.taxonomy-grid {
 			grid-template-columns: 1fr;
 		}
-		.faq-a p {
+		.faq-a-inner {
 			padding-left: 20px;
 		}
 	}
