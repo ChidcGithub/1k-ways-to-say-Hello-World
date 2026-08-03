@@ -1,0 +1,436 @@
+---
+import { getCollection } from 'astro:content';
+import { dictionaries } from '../../i18n/dictionaries';
+import { PARADIGM_LABEL, OUTPUT_LABEL, PLATFORM_LABEL, ERA_LABEL, TAG_LABEL } from '../../i18n/labels';
+import type { Locale } from '../../lib/types';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const d = dictionaries[locale];
+const prefix = locale === 'zh' ? '' : '/en';
+const label = (dim: 'paradigm' | 'output' | 'platform' | 'era' | 'tags', v: string) =>
+	locale === 'zh'
+		? dim === 'paradigm'
+			? PARADIGM_LABEL[v]?.zh ?? v
+			: dim === 'output'
+				? OUTPUT_LABEL[v]?.zh ?? v
+				: dim === 'platform'
+					? PLATFORM_LABEL[v]?.zh ?? v
+					: dim === 'era'
+						? ERA_LABEL[v]?.zh ?? v
+						: TAG_LABEL[v]?.zh ?? v
+		: dim === 'paradigm'
+			? PARADIGM_LABEL[v]?.en ?? v
+			: dim === 'output'
+				? OUTPUT_LABEL[v]?.en ?? v
+				: dim === 'platform'
+					? PLATFORM_LABEL[v]?.en ?? v
+					: dim === 'era'
+						? ERA_LABEL[v]?.en ?? v
+						: TAG_LABEL[v]?.en ?? v;
+
+const entries = (await getCollection('entries')).sort((a, b) => a.data.id.localeCompare(b.data.id));
+
+const languages = [...new Set(entries.map((e) => e.data.language))].sort();
+const paradigms = [...new Set(entries.map((e) => e.data.paradigm))].sort();
+const outputs = [...new Set(entries.map((e) => e.data.output))].sort();
+const platforms = [...new Set(entries.map((e) => e.data.platform))].sort();
+const eras = ['vintage', 'classic', 'modern', 'contemporary'];
+const tags = [...new Set(entries.flatMap((e) => e.data.tags))].sort();
+
+const grouped = new Map<string, typeof entries>();
+for (const e of entries) {
+	const list = grouped.get(e.data.language) ?? [];
+	list.push(e);
+	grouped.set(e.data.language, list);
+}
+
+const searchable = (e: (typeof entries)[number]) =>
+	`${e.data.id} ${e.data.title} ${e.data.author} ${e.data.notes}`.toLowerCase();
+const dataTags = (e: (typeof entries)[number]) => e.data.tags.join(',');
+---
+
+<section class="container section explore-head">
+	<h1 class="section-title">{d.explore.title}</h1>
+	<p class="section-sub muted">{d.explore.subtitle}</p>
+	<div class="search-box">
+		<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+			<circle cx="11" cy="11" r="7" />
+			<path d="m21 21-4.3-4.3" />
+		</svg>
+		<input type="search" id="q" class="search-input" placeholder={d.explore.searchPlaceholder} autocomplete="off" />
+	</div>
+	<div class="filters">
+		<label class="filter">
+			<span class="filter-label">{d.explore.filterLanguage}</span>
+			<select id="f-language">
+				<option value="">{d.common.all}</option>
+				{languages.map((v) => <option value={v}>{v}</option>)}
+			</select>
+		</label>
+		<label class="filter">
+			<span class="filter-label">{d.explore.filterParadigm}</span>
+			<select id="f-paradigm">
+				<option value="">{d.common.all}</option>
+				{paradigms.map((v) => <option value={v}>{label('paradigm', v)}</option>)}
+			</select>
+		</label>
+		<label class="filter">
+			<span class="filter-label">{d.explore.filterOutput}</span>
+			<select id="f-output">
+				<option value="">{d.common.all}</option>
+				{outputs.map((v) => <option value={v}>{label('output', v)}</option>)}
+			</select>
+		</label>
+		<label class="filter">
+			<span class="filter-label">{d.explore.filterPlatform}</span>
+			<select id="f-platform">
+				<option value="">{d.common.all}</option>
+				{platforms.map((v) => <option value={v}>{label('platform', v)}</option>)}
+			</select>
+		</label>
+		<label class="filter">
+			<span class="filter-label">{d.explore.filterEra}</span>
+			<select id="f-era">
+				<option value="">{d.common.all}</option>
+				{eras.map((v) => <option value={v}>{label('era', v)}</option>)}
+			</select>
+		</label>
+		<div class="filter filter-tags">
+			<span class="filter-label">{d.explore.filterTags}</span>
+			<div class="tag-chips">
+				{tags.map((t) => (
+					<button class="tag-chip" data-tag={t} type="button">{label('tags', t)}</button>
+				))}
+			</div>
+		</div>
+	</div>
+	<div class="results-bar">
+		<span id="result-count" class="result-count" data-results-label={d.common.results}></span>
+		<button id="btn-group" class="ghost-btn" type="button" data-label-grouped={d.explore.byLanguage} data-label-flat={locale === 'zh' ? '视图：平铺' : 'View: flat'}>
+			{d.explore.byLanguage}
+		</button>
+		<button id="btn-clear" class="ghost-btn" type="button" hidden>{d.common.clear}</button>
+	</div>
+</section>
+
+<section class="container section explore-body">
+	<div id="entry-list" class="entry-list">
+		{
+			[...grouped.entries()].map(([lang, list]) => (
+				<div class="lang-group" data-group={lang}>
+					<h2 class="lang-header">
+						<span class="lang-name">{lang}</span>
+						<span class="lang-count">{list.length}</span>
+					</h2>
+					<div class="entry-grid">
+						{
+							list.map((e) => (
+								<a
+									class="card entry-card card-hover"
+									href={`${prefix}/entry/${e.data.id}`}
+									data-id={e.data.id}
+									data-lang={e.data.language}
+									data-paradigm={e.data.paradigm}
+									data-output={e.data.output}
+									data-platform={e.data.platform}
+									data-era={e.data.era}
+									data-tags={dataTags(e)}
+									data-search={searchable(e)}
+								>
+									<span class="entry-id">#{e.data.id}</span>
+									<span class="entry-title">{e.data.title}</span>
+									<span class="entry-chips">
+										<span class="chip">{label('paradigm', e.data.paradigm)}</span>
+										<span class="chip">{label('output', e.data.output)}</span>
+										<span class="chip">{label('platform', e.data.platform)}</span>
+										<span class="chip">{label('era', e.data.era)}</span>
+										{e.data.tags.map((t) => <span class="chip chip-accent">{label('tags', t)}</span>)}
+									</span>
+								</a>
+							))
+						}
+					</div>
+				</div>
+			))
+		}
+	</div>
+	<div id="no-results" class="empty-state card" hidden>
+		<p class="muted">{d.common.noResults}</p>
+	</div>
+</section>
+
+<style>
+	.explore-head {
+		padding-top: calc(var(--nav-height) + 56px);
+	}
+
+	.search-box {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		background: var(--paper-2);
+		border: var(--bw) solid var(--ink);
+		box-shadow: var(--shadow);
+		padding: 14px 20px;
+		max-width: 560px;
+		color: var(--ink);
+		transition: background 0.15s, transform 0.15s var(--ease-pop), box-shadow 0.15s;
+	}
+
+	.search-box:focus-within {
+		background: var(--c-yellow);
+		color: #1a1a1a;
+		transform: translate(-2px, -2px);
+		box-shadow: var(--shadow-lg);
+	}
+
+	.search-input {
+		flex: 1;
+		border: none;
+		outline: none;
+		background: transparent;
+		font-family: var(--mono);
+		font-size: 15px;
+		font-weight: 600;
+		color: inherit;
+	}
+
+	.search-input::placeholder {
+		color: inherit;
+		opacity: 0.55;
+	}
+
+	.filters {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+		gap: 14px;
+		margin-top: 26px;
+	}
+
+	.filter {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	.filter-label {
+		font-family: var(--mono);
+		font-size: 12px;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: var(--ink-faint);
+	}
+
+	.filter select {
+		appearance: none;
+		background: var(--paper-2);
+		border: var(--bw-thin) solid var(--ink);
+		border-radius: 0;
+		box-shadow: var(--shadow-sm);
+		padding: 10px 12px;
+		font-family: var(--mono);
+		font-size: 13.5px;
+		font-weight: 600;
+		color: var(--ink);
+		cursor: pointer;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%231a1a1a' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-position: right 12px center;
+		padding-right: 32px;
+		transition: background 0.15s, transform 0.15s var(--ease-pop), box-shadow 0.15s;
+	}
+
+	.filter select:hover {
+		background-color: var(--c-teal);
+		color: #1a1a1a;
+	}
+
+	.filter select:focus {
+		outline: none;
+		background-color: var(--c-yellow);
+		color: #1a1a1a;
+		transform: translate(-1px, -1px);
+		box-shadow: 4px 4px 0 var(--ink);
+	}
+
+	.filter-tags {
+		grid-column: 1 / -1;
+	}
+
+	.tag-chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.tag-chip {
+		border: var(--bw-thin) solid var(--ink);
+		background: var(--paper-2);
+		color: var(--ink);
+		border-radius: 0;
+		box-shadow: 2px 2px 0 var(--ink);
+		padding: 5px 13px;
+		font-family: var(--mono);
+		font-size: 12.5px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background 0.15s, color 0.15s, transform 0.12s var(--ease-pop), box-shadow 0.12s;
+	}
+
+	.tag-chip:hover {
+		background: var(--c-yellow);
+		color: #1a1a1a;
+		transform: translate(-1px, -1px);
+		box-shadow: 3px 3px 0 var(--ink);
+	}
+
+	.tag-chip:active {
+		transform: translate(1px, 1px);
+		box-shadow: 1px 1px 0 var(--ink);
+	}
+
+	.tag-chip.active {
+		background: var(--accent);
+		color: #1a1a1a;
+		box-shadow: 3px 3px 0 var(--ink);
+	}
+
+	.results-bar {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		margin-top: 22px;
+	}
+
+	.result-count {
+		font-family: var(--mono);
+		font-size: 13px;
+		font-weight: 700;
+		background: var(--ink);
+		color: var(--paper);
+		padding: 4px 12px;
+	}
+
+	.ghost-btn {
+		border: var(--bw-thin) solid var(--ink);
+		background: var(--paper-2);
+		color: var(--ink);
+		font-family: var(--mono);
+		font-size: 12.5px;
+		font-weight: 700;
+		cursor: pointer;
+		padding: 5px 13px;
+		box-shadow: 2px 2px 0 var(--ink);
+		transition: background 0.15s, transform 0.12s var(--ease-pop), box-shadow 0.12s;
+	}
+
+	.ghost-btn:hover {
+		background: var(--c-teal);
+		color: #1a1a1a;
+		transform: translate(-1px, -1px);
+		box-shadow: 3px 3px 0 var(--ink);
+	}
+
+	.ghost-btn:active {
+		transform: translate(1px, 1px);
+		box-shadow: 1px 1px 0 var(--ink);
+	}
+
+	.explore-body {
+		padding-top: 0;
+	}
+
+	.lang-header {
+		font-size: 22px;
+		margin: 0 0 16px;
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.lang-name {
+		background: var(--ink);
+		color: var(--paper);
+		font-family: var(--font-display);
+		font-size: 17px;
+		padding: 4px 14px;
+		transform: rotate(-1deg);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.lang-count {
+		font-family: var(--mono);
+		font-size: 13px;
+		font-weight: 700;
+		background: var(--c-yellow);
+		color: #1a1a1a;
+		border: var(--bw-thin) solid var(--ink);
+		padding: 2px 10px;
+	}
+
+	.entry-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: 24px;
+		margin-bottom: 52px;
+	}
+
+	.entry-card {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		padding: 18px 20px;
+		color: var(--ink);
+	}
+
+	/* display:flex 会覆盖 [hidden] 的 UA display:none，必须显式声明 */
+	.entry-card[hidden],
+	.lang-group[hidden] {
+		display: none;
+	}
+
+	.entry-card:hover {
+		color: var(--ink);
+	}
+
+	.entry-id {
+		font-family: var(--mono);
+		font-size: 12.5px;
+		font-weight: 700;
+		color: var(--accent);
+	}
+
+	.entry-title {
+		font-size: 16px;
+		font-weight: 700;
+		line-height: 1.35;
+	}
+
+	.entry-chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+		margin-top: 2px;
+	}
+
+	.empty-state {
+		padding: 60px 24px;
+		text-align: center;
+	}
+
+	@media (max-width: 760px) {
+		.filters {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+</style>
+
+<script>
+	import { initExplore } from '../../scripts/explore';
+	initExplore();
+</script>

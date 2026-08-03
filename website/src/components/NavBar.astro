@@ -1,0 +1,213 @@
+---
+import type { Locale } from '../lib/types';
+import { dictionaries } from '../i18n/dictionaries';
+
+interface Props {
+	locale: Locale;
+	currentPath: string;
+}
+
+const { locale } = Astro.props;
+const d = dictionaries[locale];
+const prefix = locale === 'zh' ? '' : '/en';
+
+const links = [
+	{ href: `${prefix}/`, label: d.nav.home, exact: true },
+	{ href: `${prefix}/explore`, label: d.nav.explore },
+	{ href: `${prefix}/contribute`, label: d.nav.contribute },
+	{ href: `${prefix}/stats`, label: d.nav.stats },
+	{ href: `${prefix}/about`, label: d.nav.about },
+];
+const otherLocale: Locale = locale === 'zh' ? 'en' : 'zh';
+const otherPrefix = otherLocale === 'zh' ? '' : '/en';
+const path = Astro.props.currentPath;
+const otherHref =
+	path === '/'
+		? `${otherPrefix}/`
+		: path.replace(/^\/(zh|en)/, otherPrefix) || `${otherPrefix}/`;
+---
+
+<header class="nav" id="site-nav">
+	<div class="container nav-inner">
+		<a href={`${prefix}/`} class="nav-logo" aria-label="Home">
+			<span class="nav-logo-mark">{">_"}</span>
+			<span class="nav-logo-text">Hello, World! <span class="nav-logo-x">×1000</span></span>
+		</a>
+		<nav class="nav-links">
+			{
+				links.map((l) => (
+					<a href={l.href} class:list={['nav-link', { active: l.exact ? Astro.url.pathname === l.href : Astro.url.pathname.startsWith(l.href) }]}>
+						{l.label}
+					</a>
+				))
+			}
+		</nav>
+		<div class="nav-right">
+			<a href="https://github.com/ChidcGithub/1k-ways-to-say-Hello-World" class="nav-gh" target="_blank" rel="noreferrer">
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+					<path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.34.96.1-.75.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.77 1.05.77 2.12v3.14c0 .3.21.67.8.55A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z" />
+				</svg>
+				<span class="nav-gh-text">{d.nav.github}</span>
+			</a>
+			<a href={otherHref} class="lang-switch" aria-label="Switch language">
+				{locale === 'zh' ? 'EN' : '中文'}
+			</a>
+		</div>
+	</div>
+</header>
+
+<style>
+	.nav {
+		position: fixed;
+		inset: 0 0 auto 0;
+		z-index: 100;
+		height: var(--nav-height);
+		background: var(--paper);
+		border-bottom: var(--bw) solid var(--ink);
+		transition: box-shadow 0.2s var(--ease-snap);
+	}
+
+	.nav.scrolled {
+		box-shadow: 0 4px 0 var(--ink);
+	}
+
+	.nav-inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		height: 100%;
+		gap: 24px;
+	}
+
+	.nav-logo {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		color: var(--ink);
+		font-weight: 700;
+		font-size: 15px;
+	}
+
+	.nav-logo-mark {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 34px;
+		height: 34px;
+		background: var(--c-teal);
+		color: #1a1a1a;
+		border: var(--bw) solid var(--ink);
+		box-shadow: var(--shadow-sm);
+		font-family: var(--mono);
+		font-size: 14px;
+		font-weight: 700;
+		transform: rotate(-4deg);
+		transition: transform 0.25s var(--ease-pop), background 0.2s;
+	}
+
+	.nav-logo:hover .nav-logo-mark {
+		animation: wiggle 0.4s var(--ease-pop) infinite;
+		background: var(--c-yellow);
+	}
+
+	.nav-logo-x {
+		font-family: var(--mono);
+		color: var(--accent);
+	}
+
+	.nav-links {
+		display: flex;
+		gap: 6px;
+		flex: 1;
+		justify-content: center;
+	}
+
+	.nav-link {
+		color: var(--ink);
+		font-family: var(--mono);
+		font-size: 13.5px;
+		font-weight: 600;
+		padding: 6px 14px;
+		border: var(--bw-thin) solid transparent;
+		transition: background 0.15s, border-color 0.15s, transform 0.15s var(--ease-pop);
+	}
+
+	.nav-link:hover {
+		border-color: var(--ink);
+		background: var(--paper-2);
+		transform: rotate(-1.5deg);
+	}
+
+	.nav-link.active {
+		border-color: var(--ink);
+		background: var(--c-yellow);
+		color: #1a1a1a;
+		box-shadow: var(--shadow-sm);
+	}
+
+	.nav-right {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.nav-gh {
+		display: inline-flex;
+		align-items: center;
+		gap: 7px;
+		color: var(--ink);
+		font-family: var(--mono);
+		font-size: 13px;
+		font-weight: 600;
+		padding: 6px 12px;
+		border: var(--bw-thin) solid var(--ink);
+		background: var(--paper-2);
+		transition: background 0.15s, transform 0.15s var(--ease-pop), box-shadow 0.15s;
+	}
+
+	.nav-gh:hover {
+		background: var(--c-purple);
+		color: #1a1a1a;
+		box-shadow: var(--shadow-sm);
+		transform: translate(-1px, -1px);
+	}
+
+	.lang-switch {
+		color: #1a1a1a;
+		font-family: var(--mono);
+		font-size: 12.5px;
+		font-weight: 700;
+		padding: 6px 12px;
+		border: var(--bw-thin) solid var(--ink);
+		background: var(--c-red);
+		box-shadow: var(--shadow-sm);
+		transition: transform 0.15s var(--ease-pop), box-shadow 0.15s, background 0.15s;
+	}
+
+	.lang-switch:hover {
+		background: var(--c-yellow);
+		transform: translate(-1px, -1px);
+		box-shadow: 4px 4px 0 var(--ink);
+	}
+
+	.lang-switch:active {
+		transform: translate(1px, 1px);
+		box-shadow: 1px 1px 0 var(--ink);
+	}
+
+	@media (max-width: 860px) {
+		.nav-links {
+			display: none;
+		}
+		.nav-gh-text {
+			display: none;
+		}
+	}
+</style>
+
+<script>
+	const nav = document.getElementById('site-nav')!;
+	const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
+	onScroll();
+	window.addEventListener('scroll', onScroll, { passive: true });
+</script>

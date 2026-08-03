@@ -1,0 +1,262 @@
+---
+import Reveal from '../Reveal.astro';
+import { dictionaries } from '../../i18n/dictionaries';
+import type { Locale } from '../../lib/types';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const d = dictionaries[locale];
+
+const TEMPLATE_URL = 'https://raw.githubusercontent.com/ChidcGithub/1k-ways-to-say-Hello-World/main/docs/ENTRY_TEMPLATE.md';
+const templateMarkdown = await fetch(TEMPLATE_URL).then((r) => r.text()).catch(() => '');
+
+const steps = [
+	[d.contribute.step1Title, d.contribute.step1Desc, '01'],
+	[d.contribute.step2Title, d.contribute.step2Desc, '02'],
+	[d.contribute.step3Title, d.contribute.step3Desc, '03'],
+	[d.contribute.step4Title, d.contribute.step4Desc, '04'],
+];
+
+const stepColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c-purple)'];
+
+const dupeDims = [
+	['language', 'python / c / rust / brainfuck …'],
+	['paradigm', 'procedural / oop / functional / logic …'],
+	['output', 'stdout / stderr / gui / web / audio …'],
+	['platform', 'cli / browser / embedded / wasm …'],
+	['era', 'vintage / classic / modern / contemporary'],
+	['tags', 'one-liner / quine / polyglot / code-golf …'],
+];
+---
+
+<section class="container section contribute-head">
+	<h1 class="section-title">{d.contribute.title}</h1>
+	<p class="section-sub muted">{d.contribute.subtitle}</p>
+	<div class="head-cta">
+		<a class="btn btn-primary" id="download-template" href={templateMarkdown ? undefined : TEMPLATE_URL} data-template={templateMarkdown} download="ENTRY_TEMPLATE.md">
+			{d.contribute.downloadTemplate}
+		</a>
+		<a class="btn btn-secondary" href="https://github.com/ChidcGithub/1k-ways-to-say-Hello-World/blob/main/docs/ENTRY_TEMPLATE.md" target="_blank" rel="noreferrer">
+			{d.contribute.openTemplate}
+		</a>
+	</div>
+</section>
+
+<section class="container section">
+	<div class="steps">
+		{
+			steps.map(([t, s, n], i) => (
+				<Reveal delay={i * 100}>
+					<div class="card step-card card-hover" style={`--step-c:${stepColors[i % stepColors.length]}`}>
+						<span class="step-num">{n}</span>
+						<h3>{t}</h3>
+						<p class="muted">{s}</p>
+					</div>
+				</Reveal>
+			))
+		}
+	</div>
+</section>
+
+<section class="container section">
+	<Reveal>
+		<div class="card dupe-card">
+			<h2 class="section-title">{d.contribute.dupeTitle}</h2>
+			<p class="muted dupe-desc">{d.contribute.dupeDesc}</p>
+			<div class="dupe-grid">
+				{
+					dupeDims.map(([dim, examples]) => (
+						<div class="dupe-dim">
+							<code class="dupe-code">{dim}</code>
+							<span class="dupe-examples tiny muted">{examples}</span>
+						</div>
+					))
+				}
+			</div>
+			<h3 class="checklist-title">{d.contribute.dupeChecklistTitle}</h3>
+			<ul class="checklist">
+				<li>{d.contribute.dupeCheck1}</li>
+				<li>{d.contribute.dupeCheck2}</li>
+				<li>{d.contribute.dupeCheck3}</li>
+				<li>{d.contribute.dupeCheck4}</li>
+			</ul>
+		</div>
+	</Reveal>
+</section>
+
+<section class="container section center">
+	<Reveal>
+		<div class="card final-card">
+			<h2 class="section-title">{d.contribute.finalTitle}</h2>
+			<p class="section-sub muted">{d.contribute.finalSub}</p>
+			<a class="btn btn-primary" href="https://github.com/ChidcGithub/1k-ways-to-say-Hello-World/issues" target="_blank" rel="noreferrer">
+				{d.contribute.finalCta}
+			</a>
+		</div>
+	</Reveal>
+</section>
+
+<style>
+	.contribute-head {
+		padding-top: calc(var(--nav-height) + 56px);
+	}
+
+	.head-cta {
+		display: flex;
+		gap: 14px;
+		flex-wrap: wrap;
+	}
+
+	.steps {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 18px;
+	}
+
+	.step-card {
+		padding: 26px 24px;
+		position: relative;
+		border-top-width: 10px;
+		border-top-color: var(--step-c, var(--accent));
+	}
+
+	.step-card:nth-child(odd) {
+		transform: rotate(-0.8deg);
+	}
+
+	.step-card:nth-child(even) {
+		transform: rotate(0.8deg);
+	}
+
+	.step-num {
+		font-family: var(--mono);
+		font-size: 13px;
+		font-weight: 700;
+		background: var(--ink);
+		color: var(--paper);
+		padding: 2px 10px;
+		display: inline-block;
+	}
+
+	.step-card h3 {
+		margin: 14px 0 8px;
+		font-size: 18px;
+	}
+
+	.step-card p {
+		margin: 0;
+		font-size: 14px;
+		line-height: 1.6;
+	}
+
+	.dupe-card {
+		padding: 44px clamp(24px, 5vw, 52px);
+	}
+
+	.dupe-desc {
+		margin-bottom: 26px;
+	}
+
+	.dupe-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+		gap: 12px;
+		margin-bottom: 36px;
+	}
+
+	.dupe-dim {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		background: var(--paper-3);
+		border: var(--bw-thin) solid var(--ink);
+		box-shadow: var(--shadow-sm);
+		padding: 14px 16px;
+	}
+
+	.dupe-code {
+		font-family: var(--mono);
+		font-size: 14px;
+		font-weight: 700;
+		color: var(--accent);
+		background: transparent;
+	}
+
+	.checklist-title {
+		font-family: var(--font-display);
+		font-size: 18px;
+		margin: 0 0 16px;
+	}
+
+	.checklist {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: grid;
+		gap: 12px;
+	}
+
+	.checklist li {
+		position: relative;
+		padding-left: 36px;
+		font-size: 15px;
+		line-height: 1.5;
+	}
+
+	.checklist li::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 1px;
+		width: 20px;
+		height: 20px;
+		background: var(--c-green);
+		border: var(--bw-thin) solid var(--ink);
+		box-shadow: 2px 2px 0 var(--ink);
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%231a1a1a' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+
+	.final-card {
+		display: inline-block;
+		padding: 48px clamp(28px, 6vw, 72px);
+		background: var(--paper-3);
+		transform: rotate(0.6deg);
+	}
+
+	.final-card .section-sub {
+		margin-bottom: 28px;
+	}
+
+	@media (max-width: 900px) {
+		.steps {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (max-width: 560px) {
+		.steps {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
+
+<script>
+	const btn = document.getElementById('download-template') as HTMLAnchorElement;
+	if (btn?.dataset.template) {
+		btn.addEventListener('click', (e) => {
+			e.preventDefault();
+			const blob = new Blob([btn.dataset.template ?? ''], { type: 'text/markdown' });
+			const url = URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = 'ENTRY_TEMPLATE.md';
+			a.click();
+			URL.revokeObjectURL(url);
+		});
+	}
+</script>

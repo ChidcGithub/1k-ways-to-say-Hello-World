@@ -1,0 +1,50 @@
+---
+interface Props {
+	target: number;
+	duration?: number;
+	label?: string;
+}
+
+const { target, duration = 1200, label } = Astro.props;
+const to = Math.round(target).toLocaleString('en-US');
+---
+
+<span class="stat-counter" data-target={target} data-duration={duration}>
+	<span class="stat-counter-num" aria-label={label}>{to}</span>
+</span>
+
+<style>
+	.stat-counter-num {
+		font-variant-numeric: tabular-nums;
+	}
+</style>
+
+<script>
+	const els = document.querySelectorAll('.stat-counter');
+	const io = new IntersectionObserver(
+		(entries) => {
+			for (const e of entries) {
+				if (!e.isIntersecting) continue;
+				const root = e.target as HTMLElement;
+				const target = Number(root.dataset.target ?? 0);
+				const duration = Number(root.dataset.duration ?? 1000);
+				const num = root.querySelector('.stat-counter-num') as HTMLElement;
+				io.unobserve(root);
+				if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+					num.textContent = target.toLocaleString('en-US');
+					continue;
+				}
+				const start = performance.now();
+				const tick = (now: number) => {
+					const p = Math.min(1, (now - start) / duration);
+					const eased = 1 - Math.pow(1 - p, 4);
+					num.textContent = Math.round(target * eased).toLocaleString('en-US');
+					if (p < 1) requestAnimationFrame(tick);
+				};
+				requestAnimationFrame(tick);
+			}
+		},
+		{ threshold: 0.4 }
+	);
+	for (const el of els) io.observe(el);
+</script>

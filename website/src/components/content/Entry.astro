@@ -1,0 +1,382 @@
+---
+import CodeBlock from '../CodeBlock.astro';
+import CopyButton from '../CopyButton.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { dictionaries } from '../../i18n/dictionaries';
+import { PARADIGM_LABEL, OUTPUT_LABEL, PLATFORM_LABEL, ERA_LABEL, TAG_LABEL } from '../../i18n/labels';
+import type { Locale } from '../../lib/types';
+
+interface Props {
+	locale: Locale;
+	entry: CollectionEntry<'entries'>;
+}
+
+const { locale, entry } = Astro.props;
+const d = dictionaries[locale];
+const prefix = locale === 'zh' ? '' : '/en';
+const L = (m: Record<string, Record<Locale, string>>, v: string) => m[v]?.[locale] ?? v;
+
+const all = (await getCollection('entries')).sort((a, b) => a.data.id.localeCompare(b.data.id));
+const idx = all.findIndex((e) => e.data.id === entry.data.id);
+const prev = idx > 0 ? all[idx - 1] : null;
+const next = idx < all.length - 1 ? all[idx + 1] : null;
+
+const REPO = 'https://github.com/ChidcGithub/1k-ways-to-say-Hello-World';
+const editLink = `${REPO}/edit/main/${entry.data.path}/README.md`;
+const openLink = `${REPO}/tree/main/${entry.data.path}`;
+---
+
+<div class="container entry-page">
+	<nav class="breadcrumb">
+		<a href={`${prefix}/explore`}>{d.nav.explore}</a>
+		<span class="crumb-sep">/</span>
+		<a href={`${prefix}/explore?language=${entry.data.language}`}>{entry.data.language}</a>
+		<span class="crumb-sep">/</span>
+		<span class="crumb-current">#{entry.data.id}</span>
+	</nav>
+
+	<header class="entry-head">
+		<span class="entry-id-sticker">#{entry.data.id}</span>
+		<h1 class="entry-title">{entry.data.title}</h1>
+		<p class="entry-notes muted">{entry.data.notes}</p>
+		<div class="entry-chips">
+			<span class="chip"><span class="chip-label">{d.entry.language}</span> {entry.data.language}</span>
+			<span class="chip"><span class="chip-label">{d.entry.paradigm}</span> {L(PARADIGM_LABEL, entry.data.paradigm)}</span>
+			<span class="chip"><span class="chip-label">{d.entry.output}</span> {L(OUTPUT_LABEL, entry.data.output)}</span>
+			<span class="chip"><span class="chip-label">{d.entry.platform}</span> {L(PLATFORM_LABEL, entry.data.platform)}</span>
+			<span class="chip"><span class="chip-label">{d.entry.era}</span> {L(ERA_LABEL, entry.data.era)}</span>
+			{
+				entry.data.tags.length > 0
+					? entry.data.tags.map((t) => <span class="chip chip-accent">{L(TAG_LABEL, t)}</span>)
+					: <span class="chip muted">{d.entry.noTags}</span>
+			}
+		</div>
+	</header>
+
+	<section class="entry-section">
+		<h2 class="entry-section-title">{d.entry.sourceCode}</h2>
+		<CodeBlock code={entry.data.code} lang={entry.data.codeLang || 'plaintext'} fileName={entry.data.codeFileName} labelCopy={d.common.copy} labelCopied={d.common.copied} />
+	</section>
+
+	<section class="entry-section">
+		<h2 class="entry-section-title">{d.entry.runCommand}</h2>
+		<div class="run-box">
+			<div class="run-box-top">
+				<span class="run-dot dot-red" />
+				<span class="run-dot dot-yellow" />
+				<span class="run-dot dot-green" />
+				<span class="run-label">bash</span>
+				<span class="run-copy"><CopyButton target={entry.data.runCmd} labelCopy={d.common.copy} labelCopied={d.common.copied} /></span>
+			</div>
+			<pre class="run-cmd"><code><span class="run-prompt">$ </span>{entry.data.runCmd}</code></pre>
+			<div class="run-out">
+				<span class="run-out-label">{d.entry.expected}</span>
+				<code>Hello, World!</code>
+				<span class="run-cursor" aria-hidden="true"></span>
+			</div>
+		</div>
+	</section>
+
+	<section class="entry-section">
+		<h2 class="entry-section-title">{d.entry.categorization}</h2>
+		<div class="meta-grid">
+			<div class="meta-item"><span class="meta-key">{d.entry.author}</span><span class="meta-value">{entry.data.author}</span></div>
+			<div class="meta-item"><span class="meta-key">{d.entry.date}</span><span class="meta-value">{entry.data.date}</span></div>
+			<div class="meta-item"><span class="meta-key">path</span><span class="meta-value mono">{entry.data.path}</span></div>
+		</div>
+		<div class="entry-links">
+			<a class="btn btn-secondary" href={openLink} target="_blank" rel="noreferrer">
+				{d.common.viewSource}
+				<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" /></svg>
+			</a>
+			<a class="btn btn-secondary" href={editLink} target="_blank" rel="noreferrer">{d.common.editOnGithub}</a>
+		</div>
+	</section>
+
+	<nav class="entry-nav">
+		{prev ? (
+			<a class="card entry-nav-card card-hover" href={`${prefix}/entry/${prev.data.id}`}>
+				<span class="entry-nav-dir">← {d.common.prev}</span>
+				<span class="entry-nav-title">#{prev.data.id} · {prev.data.title}</span>
+			</a>
+		) : (
+			<span />
+		)}
+		{next ? (
+			<a class="card entry-nav-card card-hover right" href={`${prefix}/entry/${next.data.id}`}>
+				<span class="entry-nav-dir">{d.common.next} →</span>
+				<span class="entry-nav-title">#{next.data.id} · {next.data.title}</span>
+			</a>
+		) : (
+			<span />
+		)}
+	</nav>
+</div>
+
+<style>
+	.entry-page {
+		padding-top: calc(var(--nav-height) + 44px);
+		max-width: 860px;
+	}
+
+	.breadcrumb {
+		display: flex;
+		gap: 10px;
+		align-items: center;
+		margin-bottom: 30px;
+		font-family: var(--mono);
+		font-size: 13px;
+		font-weight: 600;
+	}
+
+	.breadcrumb a {
+		border-bottom: var(--bw-thin) solid transparent;
+		transition: border-color 0.15s, color 0.15s;
+	}
+
+	.breadcrumb a:hover {
+		border-color: var(--accent);
+		color: var(--accent);
+	}
+
+	.crumb-sep {
+		color: var(--ink-faint);
+	}
+
+	.crumb-current {
+		background: var(--c-yellow);
+		color: #1a1a1a;
+		border: var(--bw-thin) solid var(--ink);
+		padding: 1px 8px;
+	}
+
+	.entry-head {
+		margin-bottom: 48px;
+	}
+
+	.entry-id-sticker {
+		display: inline-block;
+		font-family: var(--mono);
+		font-size: 14px;
+		font-weight: 700;
+		background: var(--accent);
+		color: #1a1a1a;
+		border: var(--bw) solid var(--ink);
+		box-shadow: var(--shadow-sm);
+		padding: 4px 14px;
+		transform: rotate(-2deg);
+		margin-bottom: 18px;
+	}
+
+	.entry-title {
+		font-size: clamp(30px, 5vw, 44px);
+		margin: 0 0 14px;
+	}
+
+	.entry-notes {
+		font-size: 16px;
+		line-height: 1.65;
+		max-width: 640px;
+		margin: 0 0 22px;
+	}
+
+	.entry-chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.entry-section {
+		margin-bottom: 56px;
+	}
+
+	.entry-section-title {
+		font-size: 20px;
+		margin: 0 0 16px;
+	}
+
+	.entry-section-title::before {
+		content: '▸ ';
+		color: var(--accent);
+	}
+
+	/* ---- terminal ---- */
+
+	.run-box {
+		background: var(--code-bg);
+		border: var(--bw) solid var(--ink);
+		box-shadow: var(--shadow);
+		overflow: hidden;
+	}
+
+	.run-box-top {
+		display: flex;
+		align-items: center;
+		gap: 7px;
+		padding: 10px 14px;
+		background: var(--paper-2);
+		border-bottom: var(--bw) solid var(--ink);
+	}
+
+	.run-dot {
+		width: 12px;
+		height: 12px;
+		border: var(--bw-thin) solid var(--ink);
+	}
+
+	.dot-red { background: var(--c-red); }
+	.dot-yellow { background: var(--c-yellow); }
+	.dot-green { background: var(--c-green); }
+
+	.run-label {
+		margin-left: 8px;
+		font-family: var(--mono);
+		font-size: 12px;
+		font-weight: 700;
+		color: var(--ink-faint);
+	}
+
+	.run-copy {
+		margin-left: auto;
+	}
+
+	.run-copy :global(.copy-btn) {
+		color: var(--ink);
+	}
+
+	.run-cmd {
+		margin: 0;
+		padding: 20px;
+		color: #e6e6e6;
+		font-family: var(--mono);
+		font-size: 14.5px;
+		line-height: 1.7;
+		overflow-x: auto;
+	}
+
+	.run-prompt {
+		color: var(--c-teal);
+		font-weight: 700;
+	}
+
+	.run-out {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 12px 20px;
+		border-top: var(--bw-thin) dashed rgba(255, 255, 255, 0.25);
+		color: var(--c-green);
+		font-family: var(--mono);
+		font-size: 13.5px;
+	}
+
+	.run-out-label {
+		font-size: 11.5px;
+		font-weight: 700;
+		color: #1a1a1a;
+		background: var(--c-green);
+		padding: 1px 8px;
+	}
+
+	.run-cursor {
+		width: 8px;
+		height: 15px;
+		background: var(--c-green);
+		animation: blink 1s step-end infinite;
+	}
+
+	/* ---- meta ---- */
+
+	.meta-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: 14px;
+		margin-bottom: 24px;
+	}
+
+	.meta-item {
+		background: var(--paper-2);
+		border: var(--bw-thin) solid var(--ink);
+		box-shadow: var(--shadow-sm);
+		padding: 14px 16px;
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	.meta-key {
+		font-family: var(--mono);
+		font-size: 11.5px;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: var(--ink-faint);
+	}
+
+	.meta-value {
+		font-size: 15px;
+		font-weight: 600;
+	}
+
+	.mono {
+		font-family: var(--mono);
+		font-size: 13px;
+		word-break: break-all;
+	}
+
+	.entry-links {
+		display: flex;
+		gap: 12px;
+		flex-wrap: wrap;
+	}
+
+	.entry-links .btn {
+		padding: 10px 20px;
+		font-size: 14px;
+	}
+
+	.entry-nav {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 16px;
+		margin-top: 64px;
+	}
+
+	.entry-nav-card {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		padding: 18px 22px;
+		color: var(--ink);
+	}
+
+	.entry-nav-card.right {
+		text-align: right;
+	}
+
+	.entry-nav-card:hover {
+		color: var(--ink);
+	}
+
+	.entry-nav-dir {
+		font-family: var(--mono);
+		font-size: 12.5px;
+		font-weight: 700;
+		color: var(--accent);
+	}
+
+	.entry-nav-title {
+		font-weight: 700;
+		font-size: 15px;
+		line-height: 1.4;
+	}
+
+	@media (max-width: 640px) {
+		.entry-nav {
+			grid-template-columns: 1fr;
+		}
+		.entry-nav-card.right {
+			text-align: left;
+		}
+	}
+</style>

@@ -1,0 +1,113 @@
+---
+import StatCounter from './StatCounter.astro';
+
+interface Props {
+	total: number;
+	goal: number;
+}
+
+const { total, goal } = Astro.props;
+const pct = Math.round((total / goal) * 100);
+---
+
+<div class="progress" data-pct={pct}>
+	<div class="progress-top">
+		<span class="progress-count">
+			<StatCounter target={total} duration={1600} />
+			<span class="muted"> / {goal}</span>
+		</span>
+		<span class="progress-pct">{pct}%</span>
+	</div>
+	<div class="progress-track" role="progressbar" aria-valuenow={total} aria-valuemin="0" aria-valuemax={goal}>
+		<div class="progress-fill"></div>
+	</div>
+	<div class="progress-marks">
+		<span style="left: 10%">100</span>
+		<span style="left: 25%">250</span>
+		<span style="left: 50%">500</span>
+		<span style="left: 75%">750</span>
+		<span style="left: 100%">1000</span>
+	</div>
+</div>
+
+<style>
+	.progress-count {
+		font-family: var(--font-display);
+		font-size: clamp(40px, 6vw, 64px);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.progress-top {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		margin-bottom: 18px;
+	}
+
+	.progress-pct {
+		font-family: var(--mono);
+		font-weight: 700;
+		font-size: 18px;
+		background: var(--c-teal);
+		color: #1a1a1a;
+		border: var(--bw-thin) solid var(--ink);
+		padding: 2px 12px;
+		transform: rotate(2deg);
+		box-shadow: var(--shadow-sm);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.progress-track {
+		height: 26px;
+		background: var(--paper-2);
+		border: var(--bw) solid var(--ink);
+		box-shadow: var(--shadow-sm);
+		overflow: hidden;
+	}
+
+	.progress-fill {
+		height: 100%;
+		width: 0;
+		background: repeating-linear-gradient(
+			-45deg,
+			var(--c-red),
+			var(--c-red) 12px,
+			var(--c-yellow) 12px,
+			var(--c-yellow) 24px,
+			var(--c-teal) 24px,
+			var(--c-teal) 36px
+		);
+		border-right: var(--bw) solid var(--ink);
+		transition: width 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.progress-marks {
+		position: relative;
+		height: 20px;
+		margin-top: 10px;
+	}
+
+	.progress-marks span {
+		position: absolute;
+		transform: translateX(-50%);
+		font-size: 12px;
+		font-family: var(--mono);
+		font-weight: 600;
+		color: var(--ink-faint);
+		font-variant-numeric: tabular-nums;
+	}
+</style>
+
+<script>
+	const fill = document.querySelector<HTMLElement>('.progress-fill')!;
+	const pct = Number(fill.closest<HTMLElement>('.progress')?.dataset.pct ?? 0);
+	const io = new IntersectionObserver(
+		([e]) => {
+			if (!e.isIntersecting) return;
+			io.disconnect();
+			fill.style.width = pct + '%';
+		},
+		{ threshold: 0.4 }
+	);
+	io.observe(fill);
+</script>

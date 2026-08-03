@@ -1,0 +1,43 @@
+---
+interface Props {
+	target: string;
+	labelCopy: string;
+	labelCopied: string;
+	class?: string;
+}
+
+const { target, labelCopy, labelCopied } = Astro.props;
+---
+
+<button class:list={['copy-btn', Astro.props.class]} data-copy={target} data-copied-label={labelCopied} aria-label={labelCopy}>
+	{labelCopy}
+</button>
+
+<script>
+	const btns = document.querySelectorAll<HTMLButtonElement>('[data-copy]');
+	for (const btn of btns) {
+		btn.addEventListener('click', async () => {
+			const text = btn.dataset.copy ?? '';
+			try {
+				await navigator.clipboard.writeText(text);
+			} catch {
+				const ta = document.createElement('textarea');
+				ta.value = text;
+				document.body.appendChild(ta);
+				ta.select();
+				document.execCommand('copy');
+				ta.remove();
+			}
+			const original = btn.textContent ?? '';
+			const copied = btn.dataset.copiedLabel ?? '';
+			if (copied) {
+				btn.textContent = copied;
+				btn.classList.add('copied');
+				setTimeout(() => {
+					btn.textContent = original;
+					btn.classList.remove('copied');
+				}, 1600);
+			}
+		});
+	}
+</script>

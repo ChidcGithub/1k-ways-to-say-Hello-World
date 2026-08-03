@@ -1,0 +1,436 @@
+---
+import Reveal from '../Reveal.astro';
+import ProgressBar from '../ProgressBar.astro';
+import StatCounter from '../StatCounter.astro';
+import { getCollection } from 'astro:content';
+import { dictionaries } from '../../i18n/dictionaries';
+import type { Locale } from '../../lib/types';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const d = dictionaries[locale];
+const prefix = locale === 'zh' ? '' : '/en';
+
+const entries = await getCollection('entries');
+const total = entries.length;
+const languages = new Set(entries.map((e) => e.data.language)).size;
+const paradigms = new Set(entries.map((e) => e.data.paradigm)).size;
+const authors = new Set(entries.map((e) => e.data.author)).size;
+const featured = entries
+	.filter((e) => e.data.tags.includes('quine') || e.data.tags.includes('obfuscated') || e.data.tags.includes('code-golf'))
+	.slice(0, 6);
+
+const tickerLangs = [...new Set(entries.map((e) => e.data.language))].slice(0, 14);
+const tickerColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c-purple)', 'var(--c-blue)', 'var(--c-green)'];
+const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c-purple)'];
+---
+
+<section class="hero">
+	<div class="container hero-inner">
+		<p class="hero-kicker anim-fade-slide" style="--delay:80ms">
+			<span class="kicker-sticker">{d.home.heroKicker}</span>
+		</p>
+		<h1 class="hero-title">
+			<span class="anim-fade-slide" style="--delay:220ms">{d.home.heroTitle1}</span>
+			<span class="anim-fade-slide hero-title-line2" style="--delay:360ms">
+				<mark class="hero-title-accent" id="typewriter" data-text={d.home.heroTitle2}>{d.home.heroTitle2}</mark><span class="cursor" aria-hidden="true"></span>
+			</span>
+		</h1>
+		<p class="hero-sub anim-fade-slide" style="--delay:520ms">{d.home.heroSub}</p>
+		<div class="hero-cta anim-fade-slide" style="--delay:660ms">
+			<a class="btn btn-primary" href={`${prefix}/explore`}>{d.home.ctaBrowse}</a>
+			<a class="btn btn-secondary" href={`${prefix}/contribute`}>{d.home.ctaContribute}</a>
+		</div>
+	</div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+	<div class="marquee-track">
+		{
+			[0, 1].map(() => (
+				<span class="marquee-chunk">
+					{tickerLangs.map((lang, i) => (
+						<>
+							<span class="marquee-item" style={`--mc:${tickerColors[i % tickerColors.length]}`}>HELLO, WORLD!</span>
+							<span class="marquee-lang">{lang.toUpperCase()}</span>
+							<span class="marquee-star">✱</span>
+						</>
+					))}
+				</span>
+			))
+		}
+	</div>
+</div>
+
+<section class="container section progress-section">
+	<Reveal>
+		<div class="card progress-card">
+			<h2 class="section-title">{d.home.progressTitle}</h2>
+			<ProgressBar total={total} goal={1000} />
+		</div>
+	</Reveal>
+</section>
+
+<section class="container section stats-section">
+	<div class="stats-grid">
+		<Reveal delay={0}>
+			<div class="card stat-card" style={`--sc:${statColors[0]}`}>
+				<div class="stat-value"><StatCounter target={total} /></div>
+				<div class="stat-label">{d.home.statEntries}</div>
+			</div>
+		</Reveal>
+		<Reveal delay={80}>
+			<div class="card stat-card" style={`--sc:${statColors[1]}`}>
+				<div class="stat-value"><StatCounter target={languages} /></div>
+				<div class="stat-label">{d.home.statLanguages}</div>
+			</div>
+		</Reveal>
+		<Reveal delay={160}>
+			<div class="card stat-card" style={`--sc:${statColors[2]}`}>
+				<div class="stat-value"><StatCounter target={paradigms} /></div>
+				<div class="stat-label">{d.home.statParadigms}</div>
+			</div>
+		</Reveal>
+		<Reveal delay={240}>
+			<div class="card stat-card" style={`--sc:${statColors[3]}`}>
+				<div class="stat-value"><StatCounter target={authors} /></div>
+				<div class="stat-label">{d.home.statContributors}</div>
+			</div>
+		</Reveal>
+	</div>
+</section>
+
+<section class="container section">
+	<div class="features-grid">
+		{
+			[
+				[d.home.feature1Title, d.home.feature1Desc],
+				[d.home.feature2Title, d.home.feature2Desc],
+				[d.home.feature3Title, d.home.feature3Desc],
+				[d.home.feature4Title, d.home.feature4Desc],
+			].map(([t, s], i) => (
+				<Reveal delay={i * 90}>
+					<div class="card feature-card card-hover" style={`--rot:${i % 2 === 0 ? '-0.8deg' : '0.8deg'}`}>
+						<h3>{t}</h3>
+						<p class="muted">{s}</p>
+					</div>
+				</Reveal>
+			))
+		}
+	</div>
+</section>
+
+{
+	featured.length > 0 && (
+		<section class="container section">
+			<h2 class="section-title">{d.home.featuredTitle}</h2>
+			<p class="section-sub muted">{d.home.featuredSub}</p>
+			<div class="featured-grid">
+				{
+					featured.map((e, i) => (
+						<Reveal delay={i * 70}>
+							<a class="card featured-card card-hover" href={`${prefix}/entry/${e.data.id}`}>
+								<span class="featured-top">
+									<span class="featured-id">#{e.data.id}</span>
+									<span class="chip chip-accent">{e.data.language}</span>
+								</span>
+								<span class="featured-title">{e.data.title}</span>
+							</a>
+						</Reveal>
+					))
+				}
+			</div>
+		</section>
+	)
+}
+
+<section class="container section center">
+	<Reveal>
+		<div class="card final-card">
+			<h2 class="section-title">{d.home.finalCtaTitle}</h2>
+			<p class="section-sub muted">{d.home.finalCtaSub}</p>
+			<div class="hero-cta" style="justify-content:center">
+				<a class="btn btn-primary" href={`${prefix}/contribute`}>{d.home.ctaContribute}</a>
+			</div>
+		</div>
+	</Reveal>
+</section>
+
+<style>
+	.hero {
+		padding: calc(var(--nav-height) + 90px) 0 70px;
+		text-align: center;
+	}
+
+	.hero-kicker {
+		margin: 0 0 26px;
+	}
+
+	.kicker-sticker {
+		display: inline-block;
+		font-family: var(--mono);
+		font-size: 14px;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		background: var(--c-purple);
+		color: #1a1a1a;
+		border: var(--bw) solid var(--ink);
+		box-shadow: var(--shadow-sm);
+		padding: 6px 16px;
+		transform: rotate(-2deg);
+	}
+
+	.hero-title {
+		font-size: clamp(42px, 8.5vw, 92px);
+		margin: 0 0 26px;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.hero-title-line2 {
+		display: inline-flex;
+		align-items: baseline;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+
+	.hero-title-accent {
+		background: var(--c-yellow);
+		color: #1a1a1a;
+		padding: 0 0.12em;
+		border: var(--bw) solid var(--ink);
+		box-shadow: var(--shadow);
+		transform: rotate(-1deg);
+		display: inline-block;
+	}
+
+	.cursor {
+		display: inline-block;
+		width: 0.09em;
+		height: 0.82em;
+		margin-left: 0.08em;
+		background: var(--ink);
+		animation: blink 1s step-end infinite;
+		transform: translateY(0.08em);
+	}
+
+	.hero-sub {
+		max-width: 620px;
+		margin: 0 auto 40px;
+		font-size: clamp(16px, 2.2vw, 20px);
+		color: var(--ink-soft);
+		line-height: 1.65;
+	}
+
+	.hero-cta {
+		display: flex;
+		gap: 16px;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+
+	/* ---- marquee band ---- */
+
+	.marquee {
+		border-block: var(--bw) solid var(--ink);
+		background: var(--paper-2);
+		overflow: hidden;
+		transform: rotate(-1deg) scale(1.02);
+		margin-block: 10px 30px;
+	}
+
+	.marquee-track {
+		display: flex;
+		width: max-content;
+		animation: ticker 40s linear infinite;
+	}
+
+	.marquee:hover .marquee-track {
+		animation-play-state: paused;
+	}
+
+	.marquee-chunk {
+		display: flex;
+		align-items: center;
+		flex-shrink: 0;
+	}
+
+	.marquee-item {
+		font-family: var(--font-display);
+		font-size: 15px;
+		color: var(--mc, var(--accent));
+		padding: 10px 14px;
+		white-space: nowrap;
+	}
+
+	.marquee-lang {
+		font-family: var(--mono);
+		font-size: 12px;
+		font-weight: 700;
+		color: var(--ink-faint);
+		white-space: nowrap;
+	}
+
+	.marquee-star {
+		color: var(--ink);
+		padding-inline: 12px;
+		font-size: 13px;
+	}
+
+	/* ---- sections ---- */
+
+	.progress-section {
+		padding-top: 40px;
+	}
+
+	.progress-card {
+		padding: 44px clamp(24px, 5vw, 56px);
+	}
+
+	.stats-section {
+		padding-top: 8px;
+	}
+
+	.stats-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 20px;
+	}
+
+	.stat-card {
+		padding: 26px 22px;
+		text-align: center;
+		background: var(--sc, var(--paper-2));
+		color: #1a1a1a;
+		border-color: var(--ink);
+	}
+
+	.stat-card:nth-child(odd) {
+		transform: rotate(-1deg);
+	}
+
+	.stat-card:nth-child(even) {
+		transform: rotate(1deg);
+	}
+
+	.stat-value {
+		font-family: var(--font-display);
+		font-size: clamp(34px, 4.5vw, 52px);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.stat-label {
+		font-family: var(--mono);
+		font-size: 13.5px;
+		font-weight: 700;
+		margin-top: 8px;
+	}
+
+	.features-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 20px;
+	}
+
+	.feature-card {
+		padding: 30px 28px;
+		transform: rotate(var(--rot, 0deg));
+	}
+
+	.feature-card:hover {
+		transform: rotate(0deg) translate(-3px, -3px);
+	}
+
+	.feature-card h3 {
+		margin: 0 0 10px;
+		font-size: 20px;
+	}
+
+	.feature-card h3::before {
+		content: '▸ ';
+		color: var(--accent);
+	}
+
+	.feature-card p {
+		margin: 0;
+		font-size: 15px;
+		line-height: 1.6;
+	}
+
+	.featured-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 18px;
+	}
+
+	.featured-card {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		padding: 20px 22px;
+		color: var(--ink);
+	}
+
+	.featured-card:hover {
+		color: var(--ink);
+	}
+
+	.featured-top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+	}
+
+	.featured-id {
+		font-family: var(--mono);
+		font-size: 13px;
+		font-weight: 700;
+		color: var(--accent);
+	}
+
+	.featured-title {
+		font-size: 16.5px;
+		font-weight: 700;
+		line-height: 1.35;
+	}
+
+	.final-card {
+		padding: 56px clamp(24px, 5vw, 64px);
+		background: var(--paper-3);
+		transform: rotate(-0.5deg);
+	}
+
+	@media (max-width: 760px) {
+		.stats-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+		.features-grid {
+			grid-template-columns: 1fr;
+		}
+		.marquee {
+			transform: none;
+		}
+	}
+</style>
+
+<script>
+	const el = document.getElementById('typewriter');
+	if (el) {
+		const full = el.dataset.text ?? el.textContent ?? '';
+		const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (!reduced && full.length > 0) {
+			el.textContent = '';
+			let i = 0;
+			const type = () => {
+				el.textContent = full.slice(0, ++i);
+				if (i < full.length) setTimeout(type, 55 + Math.random() * 70);
+			};
+			setTimeout(type, 500);
+		}
+	}
+</script>

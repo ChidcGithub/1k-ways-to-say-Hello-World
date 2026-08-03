@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import AboutContent from '../../../components/content/About.astro';
+import { dictionaries } from '../../../i18n/dictionaries';
+
+const locale = 'en' as const;
+const d = dictionaries[locale];
+---
+
+<BaseLayout locale={locale} title={d.seo.aboutTitle} description={d.seo.aboutDesc}>
+	<AboutContent locale={locale} />
+</BaseLayout>

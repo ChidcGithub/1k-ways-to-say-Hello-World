@@ -1,0 +1,24 @@
+---
+const { delay = 0, as = 'div', class: className } = Astro.props;
+const Tag = as as any;
+---
+
+<Tag class:list={[className, 'reveal']} style={`--reveal-delay:${delay}ms`}>
+	<slot />
+</Tag>
+
+<script>
+	const els = document.querySelectorAll('.reveal');
+	const io = new IntersectionObserver(
+		(entries) => {
+			for (const e of entries) {
+				if (e.isIntersecting) {
+					(e.target as HTMLElement).classList.add('in-view');
+					io.unobserve(e.target);
+				}
+			}
+		},
+		{ threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+	);
+	for (const el of els) io.observe(el);
+</script>

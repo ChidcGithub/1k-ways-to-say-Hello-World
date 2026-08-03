@@ -1,0 +1,473 @@
+---
+import Reveal from '../Reveal.astro';
+import { getCollection } from 'astro:content';
+import { dictionaries } from '../../i18n/dictionaries';
+import type { Locale } from '../../lib/types';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const d = dictionaries[locale];
+
+const entries = await getCollection('entries');
+const total = entries.length;
+const languages = new Set(entries.map((e) => e.data.language)).size;
+
+const dims = [
+	['language', 'python · cpp · c · rust · java · haskell · brainfuck · assembly-x86 …'],
+	['paradigm', 'procedural · oop · functional · logic · declarative · reactive · meta …'],
+	['output', 'stdout · stderr · gui · web · audio · image · ascii-art · led · network · file'],
+	['platform', 'cli · browser · desktop-gui · mobile · embedded · cloud · wasm · bare-metal'],
+	['era', 'vintage (≤1980) · classic (1981–2000) · modern (2001–2020) · contemporary (2021–)'],
+	['tags', 'one-liner · code-golf · obfuscated · quine · polyglot · parallel · shader …'],
+];
+
+const dimColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c-blue)', 'var(--c-green)', 'var(--c-orange)'];
+
+const faqs = [
+	[d.about.faq1Q, d.about.faq1A],
+	[d.about.faq2Q, d.about.faq2A],
+	[d.about.faq3Q, d.about.faq3A],
+	[d.about.faq4Q, d.about.faq4A],
+	[d.about.faq5Q, d.about.faq5A],
+];
+---
+
+<section class="container about-head">
+	<p class="head-kicker"><span class="kicker-sticker">ABOUT // {locale === 'zh' ? '关于' : 'ABOUT'}</span></p>
+	<h1 class="head-title">{d.about.title}</h1>
+	<p class="head-sub muted">{d.meta.title}</p>
+</section>
+
+{/* ---- SEC.01 背景 + 档案卡 ---- */}
+<section class="container section">
+	<div class="sec-label"><span class="sec-num">SEC.01</span><span class="sec-name">{d.about.background}</span></div>
+	<div class="dossier-grid">
+		<Reveal>
+			<div class="card bg-card">
+				<p>{d.about.backgroundP1}</p>
+				<p>{d.about.backgroundP2}</p>
+				<div class="about-meta">
+					<span class="chip">MIT</span>
+					<span class="chip">Open Source</span>
+					<a class="chip chip-accent" href="https://github.com/ChidcGithub/1k-ways-to-say-Hello-World" target="_blank" rel="noreferrer">GitHub →</a>
+				</div>
+			</div>
+		</Reveal>
+		<Reveal delay={120}>
+			<aside class="card id-card" aria-label="project facts">
+				<div class="id-card-head">
+					<span class="id-card-logo">{">_"}</span>
+					<span class="id-card-title">ID CARD</span>
+				</div>
+				<dl class="id-rows">
+					<div class="id-row"><dt>PROJECT</dt><dd class="mono">1k-ways-hello-world</dd></div>
+					<div class="id-row"><dt>LICENSE</dt><dd class="mono">MIT</dd></div>
+					<div class="id-row"><dt>ENTRIES</dt><dd class="mono">{total} / 1000</dd></div>
+					<div class="id-row"><dt>LANGUAGES</dt><dd class="mono">{languages}</dd></div>
+					<div class="id-row"><dt>DIMENSIONS</dt><dd class="mono">6</dd></div>
+				</dl>
+			</aside>
+		</Reveal>
+	</div>
+</section>
+
+{/* ---- SEC.02 分类法 ---- */}
+<section class="container section">
+	<div class="sec-label"><span class="sec-num">SEC.02</span><span class="sec-name">{d.about.taxonomy}</span></div>
+	<p class="muted taxonomy-desc">{d.about.taxonomyDesc}</p>
+	<div class="taxonomy-grid">
+		{
+			dims.map(([dim, values], i) => (
+				<Reveal delay={i * 60}>
+					<div class="taxonomy-dim card-hover" style={`--dim-c:${dimColors[i % dimColors.length]}`}>
+						<div class="taxonomy-band">
+							<span class="taxonomy-index">{String(i + 1).padStart(2, '0')}</span>
+							<code class="taxonomy-name">{dim}</code>
+						</div>
+						<span class="taxonomy-values tiny muted">{values}</span>
+					</div>
+				</Reveal>
+			))
+		}
+	</div>
+</section>
+
+{/* ---- SEC.03 FAQ ---- */}
+<section class="container section">
+	<div class="sec-label"><span class="sec-num">SEC.03</span><span class="sec-name">{d.about.faqTitle}</span></div>
+	<div class="faq-list">
+		{
+			faqs.map(([q, a], i) => (
+				<Reveal delay={i * 60}>
+					<div class="card faq-item">
+						<button class="faq-q" type="button" aria-expanded="false">
+							<span class="faq-num">Q{i + 1}</span>
+							<span class="faq-text">{q}</span>
+							<span class="faq-toggle" aria-hidden="true">+</span>
+						</button>
+						<div class="faq-a"><p class="muted">{a}</p></div>
+					</div>
+				</Reveal>
+			))
+		}
+	</div>
+</section>
+
+<style>
+	/* ---- page head ---- */
+
+	.about-head {
+		padding-top: calc(var(--nav-height) + 64px);
+	}
+
+	.head-kicker {
+		margin: 0 0 20px;
+	}
+
+	.kicker-sticker {
+		display: inline-block;
+		font-family: var(--mono);
+		font-size: 13px;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		background: var(--c-teal);
+		color: #1a1a1a;
+		border: var(--bw) solid var(--ink);
+		box-shadow: var(--shadow-sm);
+		padding: 5px 14px;
+		transform: rotate(-2deg);
+	}
+
+	.head-title {
+		font-size: clamp(36px, 6vw, 64px);
+		margin: 0 0 12px;
+	}
+
+	.head-sub {
+		font-size: clamp(15px, 2vw, 18px);
+		margin: 0;
+	}
+
+	/* ---- section labels ---- */
+
+	.sec-label {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		margin-bottom: 24px;
+	}
+
+	.sec-num {
+		font-family: var(--mono);
+		font-size: 13px;
+		font-weight: 700;
+		background: var(--ink);
+		color: var(--paper);
+		padding: 4px 12px;
+		transform: rotate(-1.5deg);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.sec-name {
+		font-family: var(--font-display);
+		font-size: clamp(20px, 3vw, 28px);
+	}
+
+	/* ---- SEC.01 dossier ---- */
+
+	.dossier-grid {
+		display: grid;
+		grid-template-columns: 1.7fr 1fr;
+		gap: 20px;
+		align-items: start;
+	}
+
+	.bg-card {
+		padding: 36px clamp(24px, 4vw, 44px);
+	}
+
+	.bg-card p {
+		font-size: 16px;
+		line-height: 1.75;
+		margin: 0 0 14px;
+	}
+
+	.bg-card p:last-of-type {
+		margin-bottom: 0;
+	}
+
+	.about-meta {
+		display: flex;
+		gap: 8px;
+		flex-wrap: wrap;
+		margin-top: 24px;
+	}
+
+	.id-card {
+		background: var(--paper-3);
+		transform: rotate(1deg);
+	}
+
+	.id-card-head {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 12px 16px;
+		background: var(--c-blue);
+		color: #1a1a1a;
+		border-bottom: var(--bw) solid var(--ink);
+	}
+
+	.id-card-logo {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 26px;
+		height: 26px;
+		background: var(--paper-2);
+		border: var(--bw-thin) solid var(--ink);
+		font-family: var(--mono);
+		font-size: 12px;
+		font-weight: 700;
+	}
+
+	.id-card-title {
+		font-family: var(--mono);
+		font-size: 13px;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+	}
+
+	.id-rows {
+		margin: 0;
+		padding: 8px 0;
+	}
+
+	.id-row {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 12px;
+		padding: 10px 16px;
+	}
+
+	.id-row + .id-row {
+		border-top: var(--bw-thin) dashed var(--ink-faint);
+	}
+
+	.id-row dt {
+		font-family: var(--mono);
+		font-size: 11px;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		color: var(--ink-faint);
+	}
+
+	.id-row dd {
+		margin: 0;
+		font-size: 13px;
+		font-weight: 700;
+		text-align: right;
+		word-break: break-all;
+	}
+
+	/* ---- SEC.02 taxonomy ---- */
+
+	.taxonomy-desc {
+		margin: -8px 0 24px;
+		max-width: 640px;
+	}
+
+	.taxonomy-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 18px;
+	}
+
+	.taxonomy-dim {
+		background: var(--paper-2);
+		border: var(--bw) solid var(--ink);
+		box-shadow: var(--shadow);
+		transition: transform 0.18s var(--ease-pop), box-shadow 0.18s var(--ease-pop);
+	}
+
+	.taxonomy-dim:nth-child(3n + 1) {
+		transform: rotate(-0.7deg);
+	}
+
+	.taxonomy-dim:nth-child(3n + 2) {
+		transform: rotate(0.5deg);
+	}
+
+	.taxonomy-dim:nth-child(3n) {
+		transform: rotate(-0.4deg);
+	}
+
+	.taxonomy-dim:hover {
+		transform: rotate(0deg) translate(-3px, -3px);
+		box-shadow: var(--shadow-lg);
+	}
+
+	.taxonomy-band {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		background: var(--dim-c, var(--c-teal));
+		color: #1a1a1a;
+		border-bottom: var(--bw) solid var(--ink);
+		padding: 10px 14px;
+	}
+
+	.taxonomy-index {
+		font-family: var(--mono);
+		font-size: 11px;
+		font-weight: 700;
+		background: var(--paper-2);
+		border: var(--bw-thin) solid var(--ink);
+		padding: 1px 7px;
+	}
+
+	.taxonomy-name {
+		font-family: var(--mono);
+		font-size: 15px;
+		font-weight: 700;
+		background: transparent;
+	}
+
+	.taxonomy-values {
+		display: block;
+		padding: 14px;
+		line-height: 1.6;
+	}
+
+	/* ---- SEC.03 FAQ ---- */
+
+	.faq-list {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+		max-width: 820px;
+	}
+
+	.faq-item {
+		overflow: hidden;
+	}
+
+	.faq-q {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		border: none;
+		background: transparent;
+		font-family: inherit;
+		font-size: 16px;
+		font-weight: 700;
+		color: var(--ink);
+		padding: 16px 20px;
+		cursor: pointer;
+		text-align: left;
+		transition: background 0.15s;
+	}
+
+	.faq-q:hover {
+		background: var(--paper-3);
+	}
+
+	.faq-num {
+		flex-shrink: 0;
+		font-family: var(--mono);
+		font-size: 12px;
+		font-weight: 700;
+		background: var(--ink);
+		color: var(--paper);
+		padding: 3px 9px;
+	}
+
+	.faq-text {
+		flex: 1;
+	}
+
+	.faq-toggle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 28px;
+		height: 28px;
+		flex-shrink: 0;
+		font-family: var(--mono);
+		font-size: 18px;
+		font-weight: 700;
+		background: var(--c-yellow);
+		color: #1a1a1a;
+		border: var(--bw-thin) solid var(--ink);
+		box-shadow: 2px 2px 0 var(--ink);
+		transition: transform 0.25s var(--ease-pop), background 0.15s;
+	}
+
+	.faq-item.open .faq-toggle {
+		transform: rotate(45deg);
+		background: var(--c-red);
+	}
+
+	.faq-a {
+		display: grid;
+		grid-template-rows: 0fr;
+		transition: grid-template-rows 0.3s var(--ease-snap);
+	}
+
+	.faq-a > * {
+		overflow: hidden;
+		min-height: 0;
+	}
+
+	.faq-item.open .faq-a {
+		grid-template-rows: 1fr;
+	}
+
+	.faq-a p {
+		margin: 0;
+		padding: 0 20px 18px 66px;
+		font-size: 15px;
+		line-height: 1.7;
+	}
+
+	/* ---- responsive ---- */
+
+	@media (max-width: 900px) {
+		.dossier-grid {
+			grid-template-columns: 1fr;
+		}
+		.id-card {
+			transform: none;
+		}
+		.taxonomy-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (max-width: 560px) {
+		.taxonomy-grid {
+			grid-template-columns: 1fr;
+		}
+		.faq-a p {
+			padding-left: 20px;
+		}
+	}
+</style>
+
+<script>
+	const items = document.querySelectorAll<HTMLElement>('.faq-item');
+	for (const item of items) {
+		const btn = item.querySelector<HTMLButtonElement>('.faq-q')!;
+		btn.addEventListener('click', () => {
+			const isOpen = item.classList.contains('open');
+			for (const other of items) other.classList.remove('open');
+			if (!isOpen) item.classList.add('open');
+			btn.setAttribute('aria-expanded', String(!isOpen));
+		});
+	}
+</script>

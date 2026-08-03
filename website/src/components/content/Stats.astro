@@ -1,0 +1,346 @@
+---
+import Reveal from '../Reveal.astro';
+import { getCollection } from 'astro:content';
+import { dictionaries } from '../../i18n/dictionaries';
+import { PARADIGM_LABEL } from '../../i18n/labels';
+import type { Locale } from '../../lib/types';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const d = dictionaries[locale];
+
+const entries = await getCollection('entries');
+
+const byLang = new Map<string, number>();
+for (const e of entries) byLang.set(e.data.language, (byLang.get(e.data.language) ?? 0) + 1);
+const langRows = [...byLang.entries()].sort((a, b) => b[1] - a[1]);
+const langMax = langRows[0]?.[1] ?? 1;
+
+const byParadigm = new Map<string, number>();
+for (const e of entries) byParadigm.set(e.data.paradigm, (byParadigm.get(e.data.paradigm) ?? 0) + 1);
+const paradigmRows = [...byParadigm.entries()].sort((a, b) => b[1] - a[1]);
+const paraMax = paradigmRows[0]?.[1] ?? 1;
+
+const total = entries.length;
+const pct = Math.round((total / 1000) * 100);
+const milestones = [100, 250, 500, 750, 1000].map((m) => ({ at: m, lit: total >= m }));
+
+let ghContributors: Array<{ login: string; avatar: string; url: string }> = [];
+try {
+	const res = await fetch('https://api.github.com/repos/ChidcGithub/1k-ways-to-say-Hello-World/contributors?per_page=100', {
+		headers: { 'User-Agent': 'hello-worlds-site', Accept: 'application/vnd.github+json' },
+		signal: AbortSignal.timeout(5000),
+	});
+	if (res.ok) {
+		const data = (await res.json()) as Array<{ login: string; avatar_url: string; html_url: string }>;
+		ghContributors = data.map((c) => ({ login: c.login, avatar: c.avatar_url, url: c.html_url }));
+	}
+} catch {
+	/* offline fallback */
+}
+const fallbackAuthors = [...new Set(entries.map((e) => e.data.author))];
+const contributors =
+	ghContributors.length > 0
+		? ghContributors
+		: fallbackAuthors.map((a) => ({ login: a, avatar: '', url: `https://github.com/${a}` }));
+---
+
+<section class="container section stats-head">
+	<h1 class="section-title">{d.stats.title}</h1>
+	<p class="section-sub muted">{d.stats.subtitle}</p>
+</section>
+
+<section class="container section">
+	<div class="stats-cols">
+		<div class="card panel">
+			<h2 class="panel-title">{d.stats.leaderboard}</h2>
+			<div class="bars" id="lang-bars">
+				{
+					langRows.map(([lang, n]) => (
+						<div class="bar-row" data-v={n} data-max={langMax}>
+							<span class="bar-label">{lang}</span>
+							<div class="bar-track"><div class="bar-fill"></div></div>
+							<span class="bar-value mono">{n}</span>
+						</div>
+					))
+				}
+			</div>
+		</div>
+		<div class="card panel">
+			<h2 class="panel-title">{d.stats.paradigmLeaderboard}</h2>
+			<div class="bars" id="para-bars">
+				{
+					paradigmRows.map(([p, n]) => (
+						<div class="bar-row" data-v={n} data-max={paraMax}>
+							<span class="bar-label">{PARADIGM_LABEL[p]?.[locale] ?? p}</span>
+							<div class="bar-track"><div class="bar-fill accent2"></div></div>
+							<span class="bar-value mono">{n}</span>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="container section">
+	<Reveal>
+		<div class="card panel">
+			<h2 class="panel-title">{d.stats.milestones}</h2>
+			<p class="muted tiny" style="margin-top:-8px">{d.stats.progressDetail} · {pct}%</p>
+			<div class="milestones" style={`--pct:${pct}%`}>
+				{
+					milestones.map((m) => (
+						<div class:list={['milestone', { lit: m.lit }]}>
+							<div class="milestone-dot"></div>
+							<span class="milestone-label mono">{m.at}</span>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</Reveal>
+</section>
+
+<section class="container section">
+	<Reveal>
+		<div class="card panel">
+			<h2 class="panel-title">{d.stats.contributors}</h2>
+			<p class="muted tiny" style="margin-top:-8px">{contributors.length} · GitHub</p>
+			<div class="avatars">
+				{
+					contributors.map((c) => (
+						<a class="avatar" href={c.url} target="_blank" rel="noreferrer" title={c.login}>
+							{c.avatar ? <img src={c.avatar} alt={c.login} loading="lazy" width="48" height="48" /> : <span class="avatar-fallback">{c.login.slice(0, 1).toUpperCase()}</span>}
+						</a>
+					))
+				}
+			</div>
+		</div>
+	</Reveal>
+</section>
+
+<style>
+	.stats-head {
+		padding-top: calc(var(--nav-height) + 56px);
+	}
+
+	.stats-cols {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 20px;
+	}
+
+	.panel {
+		padding: 34px clamp(20px, 4vw, 40px);
+	}
+
+	.panel-title {
+		font-family: var(--font-display);
+		font-size: 20px;
+		margin: 0 0 24px;
+	}
+
+	.panel-title::before {
+		content: '▸ ';
+		color: var(--accent);
+	}
+
+	.bars {
+		display: flex;
+		flex-direction: column;
+		gap: 13px;
+	}
+
+	.bar-row {
+		display: grid;
+		grid-template-columns: 110px 1fr 44px;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.bar-label {
+		font-family: var(--mono);
+		font-size: 12.5px;
+		font-weight: 600;
+		text-align: right;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.bar-track {
+		height: 16px;
+		background: var(--paper);
+		border: var(--bw-thin) solid var(--ink);
+		overflow: hidden;
+	}
+
+	.bar-fill {
+		height: 100%;
+		width: 0;
+		background: repeating-linear-gradient(
+			-45deg,
+			var(--c-red),
+			var(--c-red) 8px,
+			color-mix(in srgb, var(--c-red) 65%, white) 8px,
+			color-mix(in srgb, var(--c-red) 65%, white) 16px
+		);
+		border-right: var(--bw-thin) solid var(--ink);
+		transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.bar-fill.accent2 {
+		background: repeating-linear-gradient(
+			-45deg,
+			var(--c-purple),
+			var(--c-purple) 8px,
+			color-mix(in srgb, var(--c-purple) 60%, white) 8px,
+			color-mix(in srgb, var(--c-purple) 60%, white) 16px
+		);
+	}
+
+	.bar-value {
+		font-size: 13px;
+		font-weight: 700;
+		font-variant-numeric: tabular-nums;
+		color: var(--ink-soft);
+	}
+
+	/* ---- milestones ---- */
+
+	.milestones {
+		display: flex;
+		justify-content: space-between;
+		position: relative;
+		padding: 14px 0 6px;
+	}
+
+	.milestones::before {
+		content: '';
+		position: absolute;
+		top: 22px;
+		left: 2%;
+		right: 2%;
+		height: 3px;
+		background: var(--ink);
+		opacity: 0.18;
+	}
+
+	.milestones::after {
+		content: '';
+		position: absolute;
+		top: 22px;
+		left: 2%;
+		width: calc(var(--pct) * 0.96);
+		height: 3px;
+		background: var(--accent);
+	}
+
+	.milestone {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 8px;
+		z-index: 1;
+	}
+
+	.milestone-dot {
+		width: 18px;
+		height: 18px;
+		background: var(--paper-2);
+		border: var(--bw) solid var(--ink);
+		transition: background 0.3s, transform 0.3s var(--ease-pop);
+	}
+
+	.milestone.lit .milestone-dot {
+		background: var(--accent);
+		transform: rotate(45deg) scale(1.1);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.milestone-label {
+		font-size: 12.5px;
+		font-weight: 700;
+		color: var(--ink-faint);
+	}
+
+	.milestone.lit .milestone-label {
+		color: var(--accent);
+	}
+
+	/* ---- avatars ---- */
+
+	.avatars {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px;
+	}
+
+	.avatar {
+		border: var(--bw-thin) solid var(--ink);
+		box-shadow: var(--shadow-sm);
+		overflow: hidden;
+		transition: transform 0.18s var(--ease-pop), box-shadow 0.18s;
+	}
+
+	.avatar:hover {
+		transform: translate(-2px, -2px) rotate(-3deg);
+		box-shadow: var(--shadow);
+	}
+
+	.avatar img {
+		width: 48px;
+		height: 48px;
+	}
+
+	.avatar-fallback {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 48px;
+		height: 48px;
+		background: var(--c-yellow);
+		color: #1a1a1a;
+		font-family: var(--font-display);
+		font-size: 18px;
+	}
+
+	@media (max-width: 860px) {
+		.stats-cols {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.bar-row {
+			grid-template-columns: 80px 1fr 40px;
+		}
+	}
+</style>
+
+<script>
+	const io = new IntersectionObserver(
+		(entries) => {
+			for (const e of entries) {
+				if (!e.isIntersecting) continue;
+				io.unobserve(e.target);
+				const root = e.target as HTMLElement;
+				for (const row of root.querySelectorAll<HTMLElement>('.bar-row')) {
+					const v = Number(row.dataset.v ?? 0);
+					const max = Number(row.dataset.max ?? 1);
+					const fill = row.querySelector<HTMLElement>('.bar-fill');
+					if (fill) {
+						const pct = Math.max(4, (v / max) * 100);
+						requestAnimationFrame(() => requestAnimationFrame(() => (fill.style.width = pct + '%')));
+					}
+				}
+			}
+		},
+		{ threshold: 0.2 }
+	);
+	for (const el of document.querySelectorAll('#lang-bars, #para-bars')) io.observe(el);
+</script>

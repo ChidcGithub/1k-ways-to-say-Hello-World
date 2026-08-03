@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StatsContent from '../../components/content/Stats.astro';
+import { dictionaries } from '../../i18n/dictionaries';
+
+const locale = 'zh' as const;
+const d = dictionaries[locale];
+---
+
+<BaseLayout locale={locale} title={d.seo.statsTitle} description={d.seo.statsDesc}>
+	<StatsContent locale={locale} />
+</BaseLayout>

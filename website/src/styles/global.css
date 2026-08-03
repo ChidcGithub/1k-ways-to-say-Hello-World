@@ -1,0 +1,448 @@
+/* ============================================================
+   Neo-Brutalism Design System
+   粗边框 · 硬阴影 · 高饱和撞色 · 错位排版
+   ============================================================ */
+
+:root {
+	/* paper & ink */
+	--paper: #fff8ec;
+	--paper-2: #ffffff;
+	--paper-3: #fdf1dc;
+	--ink: #1a1a1a;
+	--ink-soft: #4f4a40;
+	--ink-faint: #8a8272;
+
+	/* high-saturation clash palette */
+	--c-red: #ff6b6b;
+	--c-yellow: #ffe66d;
+	--c-teal: #4ecdc4;
+	--c-purple: #5c7cfa;
+	--c-blue: #74a7ff;
+	--c-green: #8ce99a;
+	--c-orange: #ffa94d;
+
+	--accent: var(--c-red);
+	--accent-2: var(--c-teal);
+
+	/* brutalist geometry */
+	--bw: 3px;
+	--bw-thin: 2px;
+	--shadow-sm: 3px 3px 0 var(--ink);
+	--shadow: 5px 5px 0 var(--ink);
+	--shadow-lg: 8px 8px 0 var(--ink);
+	--shadow-none: 0 0 0 var(--ink);
+
+	--nav-height: 64px;
+
+	/* motion */
+	--ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+	--ease-snap: cubic-bezier(0.85, 0, 0.15, 1);
+
+	/* type */
+	--font-display: 'Archivo Black', 'Arial Black', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+	--font: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+	--mono: 'JetBrains Mono', ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, Consolas, monospace;
+
+	--code-bg: #1a1a1a;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--paper: #1b1b23;
+		--paper-2: #26262f;
+		--paper-3: #20202a;
+		--ink: #f2ede3;
+		--ink-soft: #b8b2a6;
+		--ink-faint: #7e796e;
+
+		--c-red: #ff8787;
+		--c-yellow: #ffe66d;
+		--c-teal: #63e6db;
+		--c-purple: #91a7ff;
+		--c-blue: #91baff;
+		--c-green: #8ce99a;
+		--c-orange: #ffc078;
+
+		--code-bg: #101014;
+	}
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+}
+
+body {
+	margin: 0;
+	font-family: var(--font);
+	background: var(--paper);
+	color: var(--ink);
+	font-size: 16px;
+	line-height: 1.55;
+	transition: background 0.3s var(--ease-snap), color 0.3s var(--ease-snap);
+}
+
+/* subtle dot grid texture on the paper */
+body::before {
+	content: '';
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: 0;
+	background-image: radial-gradient(var(--ink) 1px, transparent 1px);
+	background-size: 28px 28px;
+	opacity: 0.05;
+}
+
+main {
+	position: relative;
+	z-index: 1;
+}
+
+h1,
+h2,
+h3 {
+	font-family: var(--font-display);
+	line-height: 1.1;
+	letter-spacing: 0;
+	text-wrap: balance;
+}
+
+a {
+	color: var(--ink);
+	text-decoration: none;
+}
+
+img,
+svg {
+	display: block;
+}
+
+::selection {
+	background: var(--c-yellow);
+	color: #1a1a1a;
+}
+
+.container {
+	width: min(1120px, 92vw);
+	margin-inline: auto;
+}
+
+.section {
+	padding-block: 72px;
+}
+
+.section-title {
+	font-size: clamp(28px, 4.4vw, 46px);
+	margin: 0 0 12px;
+}
+
+.section-sub {
+	font-size: clamp(15px, 2vw, 19px);
+	color: var(--ink-soft);
+	margin: 0 0 40px;
+}
+
+/* ---- Buttons ---- */
+
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	border: var(--bw) solid var(--ink);
+	border-radius: 0;
+	padding: 13px 26px;
+	font-size: 15px;
+	font-weight: 700;
+	font-family: var(--font);
+	cursor: pointer;
+	box-shadow: var(--shadow-sm);
+	transition: transform 0.15s var(--ease-pop), box-shadow 0.15s var(--ease-pop), background 0.15s;
+	-webkit-tap-highlight-color: transparent;
+	user-select: none;
+}
+
+.btn:hover {
+	transform: translate(-2px, -2px);
+	box-shadow: var(--shadow);
+}
+
+.btn:active {
+	transform: translate(2px, 2px);
+	box-shadow: 1px 1px 0 var(--ink);
+}
+
+.btn-primary {
+	background: var(--accent);
+	color: #1a1a1a;
+}
+
+.btn-primary:hover {
+	color: #1a1a1a;
+	background: var(--c-yellow);
+}
+
+.btn-secondary {
+	background: var(--paper-2);
+	color: var(--ink);
+}
+
+.btn-secondary:hover {
+	color: var(--ink);
+	background: var(--c-teal);
+}
+
+/* ---- Chips ---- */
+
+.chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	border: var(--bw-thin) solid var(--ink);
+	border-radius: 0;
+	padding: 3px 10px;
+	font-size: 12.5px;
+	font-weight: 600;
+	font-family: var(--mono);
+	background: var(--paper-2);
+	color: var(--ink);
+	white-space: nowrap;
+}
+
+.chip-accent {
+	background: var(--c-yellow);
+	color: #1a1a1a;
+}
+
+.chip-label {
+	opacity: 0.6;
+	font-weight: 400;
+}
+
+a.chip:hover {
+	background: var(--c-teal);
+	color: #1a1a1a;
+}
+
+/* ---- Cards ---- */
+
+.card {
+	background: var(--paper-2);
+	border: var(--bw) solid var(--ink);
+	box-shadow: var(--shadow);
+	transition: transform 0.18s var(--ease-pop), box-shadow 0.18s var(--ease-pop);
+}
+
+.card-hover:hover {
+	transform: translate(-3px, -3px) rotate(-0.4deg);
+	box-shadow: var(--shadow-lg);
+}
+
+.card-hover:active {
+	transform: translate(2px, 2px);
+	box-shadow: var(--shadow-sm);
+}
+
+/* ---- Reveal on scroll: sticker pop-in ---- */
+
+.reveal {
+	opacity: 0;
+	transform: translateY(28px) scale(0.92) rotate(-1.2deg);
+	transition:
+		opacity 0.45s var(--ease-pop),
+		transform 0.45s var(--ease-pop);
+	transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal.in-view {
+	opacity: 1;
+	transform: translateY(0) scale(1) rotate(0deg);
+}
+
+/* ---- Keyframes ---- */
+
+@keyframes ticker {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(-50%);
+	}
+}
+
+@keyframes blink {
+	0%,
+	49% {
+		opacity: 1;
+	}
+	50%,
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes pop-in {
+	0% {
+		opacity: 0;
+		transform: scale(0.5) rotate(-6deg);
+	}
+	70% {
+		transform: scale(1.08) rotate(2deg);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1) rotate(0deg);
+	}
+}
+
+@keyframes wiggle {
+	0%,
+	100% {
+		transform: rotate(-1.5deg);
+	}
+	50% {
+		transform: rotate(1.5deg);
+	}
+}
+
+.anim-fade-slide {
+	animation: pop-in 0.5s var(--ease-pop) both;
+	animation-delay: var(--delay, 0ms);
+}
+
+/* ---- Code ---- */
+
+.code-block {
+	background: var(--code-bg);
+	border: var(--bw) solid var(--ink);
+	box-shadow: var(--shadow);
+	overflow: hidden;
+	position: relative;
+	font-size: 14px;
+	line-height: 1.6;
+}
+
+.code-block pre {
+	margin: 0;
+	padding: 20px;
+	overflow-x: auto;
+}
+
+.code-block code {
+	font-family: var(--mono);
+}
+
+.code-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 8px 14px;
+	background: var(--c-yellow);
+	color: #1a1a1a;
+	font-size: 12.5px;
+	font-weight: 700;
+	font-family: var(--mono);
+	border-bottom: var(--bw) solid var(--ink);
+}
+
+.copy-btn {
+	appearance: none;
+	border: var(--bw-thin) solid currentColor;
+	background: transparent;
+	color: inherit;
+	font-family: var(--mono);
+	font-size: 12px;
+	font-weight: 700;
+	cursor: pointer;
+	padding: 4px 10px;
+	transition: background 0.15s, color 0.15s, transform 0.15s var(--ease-pop);
+}
+
+.copy-btn:hover {
+	background: var(--ink);
+	color: var(--paper);
+}
+
+.copy-btn:active {
+	transform: scale(0.94);
+}
+
+.copy-btn.copied {
+	background: var(--c-green);
+	color: #1a1a1a;
+	border-color: #1a1a1a;
+}
+
+/* shiki dual-theme switching */
+@media (prefers-color-scheme: dark) {
+	.shiki,
+	.shiki span {
+		color: var(--shiki-dark) !important;
+		background-color: var(--shiki-dark-bg) !important;
+		font-style: var(--shiki-dark-font-style) !important;
+		font-weight: var(--shiki-dark-font-weight) !important;
+		text-decoration: var(--shiki-dark-text-decoration) !important;
+	}
+}
+
+/* ---- Forms (brutalist) ---- */
+
+input,
+select,
+button {
+	font-family: inherit;
+}
+
+/* ---- Misc ---- */
+
+.muted {
+	color: var(--ink-soft);
+}
+
+.tiny {
+	font-size: 13px;
+}
+
+.center {
+	text-align: center;
+}
+
+.mono {
+	font-family: var(--mono);
+}
+
+.stack > * + * {
+	margin-top: 1em;
+}
+
+::focus-visible {
+	outline: var(--bw) solid var(--accent);
+	outline-offset: 3px;
+	border-radius: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+
+	.reveal {
+		opacity: 1;
+		transform: none;
+	}
+}

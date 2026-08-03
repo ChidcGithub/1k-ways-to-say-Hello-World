@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import EntryContent from '../../../components/content/Entry.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { dictionaries } from '../../../i18n/dictionaries';
+
+const locale = 'en' as const;
+const d = dictionaries[locale];
+
+export async function getStaticPaths() {
+	const entries = await getCollection('entries');
+	return entries.map((e) => ({ params: { id: e.data.id }, props: { entry: e } }));
+}
+
+const { entry } = Astro.props as { entry: CollectionEntry<'entries'> };
+---
+
+<BaseLayout locale={locale} title={`#${entry.data.id} · ${entry.data.title} — ${d.meta.title}`} description={entry.data.notes}>
+	<EntryContent locale={locale} entry={entry} />
+</BaseLayout>

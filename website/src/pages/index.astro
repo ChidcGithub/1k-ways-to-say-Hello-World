@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeContent from '../components/content/Home.astro';
+import { dictionaries } from '../i18n/dictionaries';
+import { getCollection } from 'astro:content';
+
+const locale = 'zh' as const;
+const d = dictionaries[locale];
+const total = (await getCollection('entries')).length;
+---
+
+<BaseLayout locale={locale} title={`${d.meta.title} — ${total}/1000`} description={d.meta.description}>
+	<HomeContent locale={locale} />
+</BaseLayout>

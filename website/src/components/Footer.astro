@@ -1,0 +1,122 @@
+---
+import type { Locale } from '../lib/types';
+import { dictionaries } from '../i18n/dictionaries';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const d = dictionaries[locale];
+const prefix = locale === 'zh' ? '' : '/en';
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+	<div class="container footer-inner">
+		<div class="footer-brand">
+			<div class="footer-logo">{">_"}</div>
+			<div>
+				<div class="footer-title">1k-ways-to-say-Hello-World</div>
+				<div class="footer-sub muted tiny">{d.meta.description}</div>
+			</div>
+		</div>
+		<nav class="footer-links">
+			<a href={`${prefix}/explore`}>{d.nav.explore}</a>
+			<a href={`${prefix}/contribute`}>{d.nav.contribute}</a>
+			<a href={`${prefix}/stats`}>{d.nav.stats}</a>
+			<a href={`${prefix}/about`}>{d.nav.about}</a>
+			<a href="https://github.com/ChidcGithub/1k-ways-to-say-Hello-World" target="_blank" rel="noreferrer">GitHub</a>
+		</nav>
+		<div class="footer-bottom muted tiny">
+			<span>
+				© {year} {d.common.poweredBy}
+			</span>
+			<span>
+				<a href="https://opensource.org/licenses/MIT" target="_blank" rel="noreferrer">MIT License</a>
+			</span>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.footer {
+		border-top: var(--bw) solid var(--ink);
+		background: var(--paper-3);
+		padding-block: 48px 36px;
+		margin-top: 96px;
+	}
+
+	.footer-inner {
+		display: grid;
+		gap: 28px;
+	}
+
+	.footer-brand {
+		display: flex;
+		gap: 14px;
+		align-items: flex-start;
+	}
+
+	.footer-logo {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 38px;
+		height: 38px;
+		background: var(--c-teal);
+		color: #1a1a1a;
+		border: var(--bw) solid var(--ink);
+		box-shadow: var(--shadow-sm);
+		font-family: var(--mono);
+		font-size: 15px;
+		font-weight: 700;
+		transform: rotate(-4deg);
+		flex-shrink: 0;
+	}
+
+	.footer-title {
+		font-family: var(--font-display);
+		font-size: 15px;
+	}
+
+	.footer-sub {
+		max-width: 480px;
+		line-height: 1.6;
+	}
+
+	.footer-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px 22px;
+		font-family: var(--mono);
+		font-size: 13.5px;
+		font-weight: 600;
+	}
+
+	.footer-links a {
+		border-bottom: var(--bw-thin) solid transparent;
+		transition: border-color 0.15s, color 0.15s;
+	}
+
+	.footer-links a:hover {
+		border-color: var(--accent);
+		color: var(--accent);
+	}
+
+	.footer-bottom {
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 8px;
+		padding-top: 20px;
+		border-top: var(--bw-thin) dashed var(--ink-faint);
+		font-family: var(--mono);
+	}
+
+	.footer-bottom a {
+		text-decoration: underline;
+		text-decoration-thickness: 2px;
+		text-underline-offset: 3px;
+	}
+</style>
