@@ -20,10 +20,7 @@ const languages = new Set(entries.map((e) => e.data.language)).size;
 const paradigms = new Set(entries.map((e) => e.data.paradigm)).size;
 const remaining = 1000 - total;
 const authors = new Set(entries.map((e) => e.data.author)).size;
-const featured = entries
-	.filter((e) => e.data.tags.includes('quine') || e.data.tags.includes('obfuscated') || e.data.tags.includes('code-golf'))
-	.sort(() => Math.random() - 0.5)
-	.slice(0, 6);
+const featured = entries.filter((e) => e.data.tags.includes('quine') || e.data.tags.includes('obfuscated') || e.data.tags.includes('code-golf'));
 
 const tickerLangs = [...new Set(entries.map((e) => e.data.language))].slice(0, 14);
 const tickerColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c-purple)', 'var(--c-blue)', 'var(--c-green)'];
@@ -127,14 +124,14 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 
 {
 	featured.length > 0 && (
-		<section class="container section">
+		<section class="container section" id="featured-section">
 			<h2 class="section-title">{d.home.featuredTitle}</h2>
 			<p class="section-sub muted">{d.home.featuredSub}</p>
-			<div class="featured-grid">
+			<div class="featured-grid" id="featured-grid">
 				{
 					featured.map((e, i) => (
 						<Reveal delay={i * 70}>
-							<a class="card featured-card card-hover" href={`${prefix}/entry/${e.data.id}`}>
+							<a class="card featured-card card-hover featured-item" href={`${prefix}/entry/${e.data.id}`} style="display:none">
 								<span class="featured-top">
 									<span class="featured-id">#{e.data.numericId}</span>
 									<span class="chip chip-accent">{e.data.language}</span>
@@ -228,6 +225,25 @@ const statColors = ['var(--c-red)', 'var(--c-yellow)', 'var(--c-teal)', 'var(--c
 	);
 
 	observer.observe(el);
+})();
+
+// Randomly show 6 featured items
+(function () {
+	var grid = document.getElementById('featured-grid');
+	if (!grid) return;
+	var items = Array.from(grid.querySelectorAll('.featured-item'));
+	if (items.length <= 6) {
+		items.forEach(function (el) { el.style.display = ''; });
+		return;
+	}
+	// Fisher-Yates shuffle then take first 6
+	for (var i = items.length - 1; i > 0; i--) {
+		var j = Math.floor(Math.random() * (i + 1));
+		var tmp = items[i];
+		items[i] = items[j];
+		items[j] = tmp;
+	}
+	items.slice(0, 6).forEach(function (el) { el.style.display = ''; });
 })();
 </script>
 
